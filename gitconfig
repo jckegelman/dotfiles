@@ -1,0 +1,7 @@
+[user]
+	name = John Kegelman
+	email = kegelman@stanford.edu
+[core]
+	editor = vim
+[push]
+	default = simple
