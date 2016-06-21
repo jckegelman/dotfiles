@@ -1,8 +1,21 @@
 " Vim Settings
 " John Kegelman
 
-" break compatibility with vi
-set nocompatible
+set nocompatible        " be iMproved, required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Vim bundles
+Plugin 'tpope/vim-sensible'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'vim-latex/vim-latex'
+
+call vundle#end()
 
 " Change leader key to <space>
 nnoremap <space> <nop>
@@ -178,9 +191,6 @@ set noswapfile " suppress creation of swap files
 set nobackup   " suppress creation of backup files
 set nowb       " suppress creation of ~ files
 
-"============= Pathogen =======================================================
-
-execute pathogen#infect()
 
 "============= Solarized ======================================================
 
