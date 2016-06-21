@@ -1,16 +1,27 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-setopt appendhistory autocd extendedglob notify
-unsetopt beep nomatch
-bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/Users/marissaferrante/.zshrc'
+source ~/dotfiles/antigen/antigen.zsh
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-. `brew --prefix`/etc/profile.d/z.sh
-export PATH="/Library/TeX/texbin:/usr/local/bin:$PATH"
+# Load the oh-my-zsh library
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh)
+antigen bundle git
+antigen bundle command-not-found
+antigen bundle brew
+antigen bundle common-aliases
+antigen bundle z
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search 
+
+# Load the theme
+antigen theme mh
+
+# Tell antigen that you're done
+antigen apply
+
+platform=$(uname);
+if [[ $platform == 'Darwin' ]]; then
+	# Bind keyboard shortcuts for iTerm2 running on Apple MacBook laptops
+	zmodload zsh/terminfo
+	bindkey "$terminfo[cuu1]" history-substring-search-up
+	bindkey "$terminfo[cud1]" history-substring-search-down
+fi
