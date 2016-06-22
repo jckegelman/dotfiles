@@ -25,11 +25,11 @@ set number       " show line numbers
 set laststatus=2 " always show status line
 set wildmenu     " better command-line completion
 set mouse=a      " enable mouse for all modes
-set gfn=Monaco   " font
 set backspace=indent,eol,start " backspace over everything in insert mode
 
 if has('gui_running')
-	set lines=35 columns=160 " adjust window size for gui
+    set lines=35 columns=108 " adjust window size for gui
+    set guifont=Meslo\ LG\ M\ Regular
 endif
 
 "============= Key Mappings ==================================================
@@ -118,20 +118,20 @@ autocmd VimEnter * nested call OpenSession()
 " yet exist. Sessions are named after servername parameter or g:sessionname
 function! SaveSession()
 
-	" get the server (session) name
-	if exists("g:sessionname")
-		let s = g:sessionname
-	else
-		let s = v:servername
-	endif
+    " get the server (session) name
+    if exists("g:sessionname")
+        let s = g:sessionname
+    else
+        let s = v:servername
+    endif
 
-	" create session dir if needed
-	if !isdirectory(g:session_dir)
-		call mkdir(g:session_dir, "p")
-	endif
+    " create session dir if needed
+    if !isdirectory(g:session_dir)
+        call mkdir(g:session_dir, "p")
+    endif
 
-	" save session using the server name
-	execute "mksession! ".g:session_dir."/".s.".session.vim"
+    " save session using the server name
+    execute "mksession! ".g:session_dir."/".s.".session.vim"
 endfunc
 
 " Open a saved session if there were no file-names passed as arguments
@@ -139,20 +139,20 @@ endfunc
 " is no session for this server, none will be opened
 function! OpenSession()
 
-	" check if file names were passed as arguments
-	if argc() == 0
+    " check if file names were passed as arguments
+    if argc() == 0
 
-		let sn = v:servername
-		let file = g:session_dir."/".sn.".session.vim"
+        let sn = v:servername
+        let file = g:session_dir."/".sn.".session.vim"
 
-		" if session file exists, ask user if he wants to load it
-		if filereadable(file)
-			if(confirm("Load last session?\n\n".file, "&Yes\n&No", 1)==1)
-				execute "source ".file
-			endif
-		endif
+        " if session file exists, ask user if he wants to load it
+        if filereadable(file)
+            if(confirm("Load last session?\n\n".file, "&Yes\n&No", 1)==1)
+                execute "source ".file
+            endif
+        endif
 
-	endif
+    endif
 endfunc
 
 "============= Spell Check ===================================================
@@ -163,7 +163,7 @@ set spelllang=en
 set cursorline           " highlight line with cursor
 
 if v:version >= 703
-	set colorcolumn=80 " highlight column 80
+    set colorcolumn=80 " highlight column 80
 endif
 
 set scrolloff=3          " 3 line offset when scrolling
@@ -199,11 +199,11 @@ set nowb       " suppress creation of ~ files
 "============= Solarized ======================================================
 
 if has('gui_running')
-	set background=light
+    set background=light
 else
-	set t_Co=256
-	let g:solarized_termcolors=256
-	set background=dark
+    set t_Co=256
+    let g:solarized_termcolors=256
+    set background=dark
 endif
 
 colorscheme solarized
