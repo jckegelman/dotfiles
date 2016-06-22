@@ -23,8 +23,10 @@ filetype plugin indent on " required
 "============= UI ========= ==================================================
 set number       " show line numbers
 set laststatus=2 " always show status line
-
-set gfn=Monaco " font
+set wildmenu     " better command-line completion
+set mouse=a      " enable mouse for all modes
+set gfn=Monaco   " font
+set backspace=indent,eol,start " backspace over everything in insert mode
 
 if has('gui_running')
 	set lines=35 columns=160 " adjust window size for gui
@@ -36,31 +38,34 @@ endif
 nnoremap <space> <nop>
 let mapleader="\<space>"
 
-" press ; to issue commands in normal mode
+" Y yanks until EOL
+map Y y$
+
+" ';' issues commands in normal mode
 nnoremap ; :
 
-" pressing <leader><space> clears the search highlights
+" <leader><space> clears the search highlights
 nmap <silent> <leader><space> :nohlsearch<CR>
 
-" break a line at cursor without exiting normal mode
+" <leader><CR> breaks a line at cursor without exiting normal mode
 nnoremap <silent> <leader><CR> i<CR><ESC>
 
-" insert a blank line with <leader>o
+" <leader>o/O inserts a blank line in normal mode
 nnoremap <silent> <leader>o o<ESC>
 nnoremap <silent> <leader>O O<ESC>
 
-" use jj to quickly escape to normal mode while typing
+" jj escapes insert mode to normal mode
 inoremap jj <ESC>
 
-" use <leader>y/Y to copy to system clipboard
-noremap <leader>y "+y
-noremap <leader>Y "+Y
+" <leader>y/Y copies to system clipboard
+map <leader>y "+y
+map <leader>Y "+Y " note recursive map here
 
-" use <leader>p/P to paste from system clipboard
+" <leader>p/P pastes from system clipboard
 noremap <leader>p :set paste<CR>"+]p:set nopaste<CR>
 noremap <leader>P :set paste<CR>"+]P:set nopaste<CR>
 
-" use +/- to increment/decrement numbers
+" +/- increments/decrements numbers
 nnoremap + <C-a>
 nnoremap - <C-x>
 
@@ -70,7 +75,7 @@ inoremap <C-BS> <ESC>bcw
 " Ctrl-Del deletes next word
 inoremap <C-Del> <ESC>wcw
 
-" use <F2> to toggle paste mode
+" <F2> toggles paste mode
 set pastetoggle=<F2>
 
 "============= Buffers =======================================================
@@ -178,11 +183,12 @@ set smartcase  " case-sensitive for searches with uppercase
 
 "============= Syntax Highlighting & Indents =================================
 
-syntax enable  " enable syntax highlighting
+syntax enable     " enable syntax highlighting
 
-set autoindent " always indent
-
-set backspace=indent,eol,start " backspace over everything in insert mode
+set autoindent    " always indent
+set shiftwidth=4  " auto-indent with 4 spaces
+set softtabstop=4 " <TAB> and <BS> for 4 spaces
+set expandtab     " use spaces instead of TAB
 
 "============= Swap Files ====================================================
 
