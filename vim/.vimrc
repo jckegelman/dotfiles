@@ -14,22 +14,27 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-latex/vim-latex'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
-call vundle#end()
+call vundle#end()         " required
+filetype plugin indent on " required
+
+"============= UI ========= ==================================================
+set number       " show line numbers
+set laststatus=2 " always show status line
+
+set gfn=Monaco " font
+
+if has('gui_running')
+	set lines=35 columns=160 " adjust window size for gui
+endif
+
+"============= Key Mappings ==================================================
 
 " Change leader key to <space>
 nnoremap <space> <nop>
 let mapleader="\<space>"
-
-" font
-set gfn=Monaco
-
-" UI options
-if has('gui_running')
-	set lines=35 columns=160
-endif
-
-"============= Key Mappings ==================================================
 
 " press ; to issue commands in normal mode
 nnoremap ; :
@@ -64,6 +69,9 @@ inoremap <C-BS> <ESC>bcw
 
 " Ctrl-Del deletes next word
 inoremap <C-Del> <ESC>wcw
+
+" use <F2> to toggle paste mode
+set pastetoggle=<F2>
 
 "============= Buffers =======================================================
 
@@ -105,20 +113,20 @@ autocmd VimEnter * nested call OpenSession()
 " yet exist. Sessions are named after servername parameter or g:sessionname
 function! SaveSession()
 
-    " get the server (session) name
-    if exists("g:sessionname")
-	let s = g:sessionname
-    else
-	let s = v:servername
-    endif
+	" get the server (session) name
+	if exists("g:sessionname")
+		let s = g:sessionname
+	else
+		let s = v:servername
+	endif
 
-    " create session dir if needed
-    if !isdirectory(g:session_dir)
-	call mkdir(g:session_dir, "p")
-    endif
+	" create session dir if needed
+	if !isdirectory(g:session_dir)
+		call mkdir(g:session_dir, "p")
+	endif
 
-    " save session using the server name
-    execute "mksession! ".g:session_dir."/".s.".session.vim"
+	" save session using the server name
+	execute "mksession! ".g:session_dir."/".s.".session.vim"
 endfunc
 
 " Open a saved session if there were no file-names passed as arguments
@@ -126,28 +134,25 @@ endfunc
 " is no session for this server, none will be opened
 function! OpenSession()
 
-    " check if file names were passed as arguments
-    if argc() == 0
+	" check if file names were passed as arguments
+	if argc() == 0
 
-	let sn = v:servername
-	let file = g:session_dir."/".sn.".session.vim"
+		let sn = v:servername
+		let file = g:session_dir."/".sn.".session.vim"
 
-	" if session file exists, ask user if he wants to load it
-	if filereadable(file)
-	    if(confirm("Load last session?\n\n".file, "&Yes\n&No", 1)==1)
-		execute "source ".file
-	    endif
+		" if session file exists, ask user if he wants to load it
+		if filereadable(file)
+			if(confirm("Load last session?\n\n".file, "&Yes\n&No", 1)==1)
+				execute "source ".file
+			endif
+		endif
+
 	endif
-
-    endif
 endfunc
 
 "============= Spell Check ===================================================
 set spell          " enable in-line spellcheck
 set spelllang=en
-
-"============= Line Numbers ==================================================
-set number
 
 "============= Scrolling and Position ========================================
 set cursorline           " highlight line with cursor
@@ -168,22 +173,16 @@ set showmatch " show matching brackets
 set incsearch " incremental search
 set hlsearch  " highlight search
 
+set ignorecase " case-insensitive search
+set smartcase  " case-sensitive for searches with uppercase
+
 "============= Syntax Highlighting & Indents =================================
 
 syntax enable  " enable syntax highlighting
 
-" enable filetype detection and loading of plugin and indent files
-filetype plugin indent on
-
 set autoindent " always indent
-set copyindent " copy previous indent on autoindenting
-set smartindent
 
 set backspace=indent,eol,start " backspace over everything in insert mode
-
-"============= Status Line ===================================================
-
-set statusline=2 " always show status line
 
 "============= Swap Files ====================================================
 
@@ -191,12 +190,12 @@ set noswapfile " suppress creation of swap files
 set nobackup   " suppress creation of backup files
 set nowb       " suppress creation of ~ files
 
-
 "============= Solarized ======================================================
 
 if has('gui_running')
 	set background=light
 else
+	set t_Co=256
 	let g:solarized_termcolors=256
 	set background=dark
 endif
@@ -212,4 +211,3 @@ let g:tex_flavor='latex'
 let g:Tex_CompileRule_pdf = "pdflatex -interaction=nonstopemode %:r & bibtex %:r & pdflatex -interaction=nonstopmode %:r"
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_MultipleCompileFormats='pdf'
-let g:Tex_ViewRule_pdf = "'C:\\Program Files\\SumatraPDF\\SumatraPDF.exe' -reuse-instance"
