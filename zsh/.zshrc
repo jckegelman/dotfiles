@@ -1,4 +1,4 @@
-export PATH=/usr/local/bin:$PATH
+export PATH=/Library/TeX/texbin:/usr/local/bin:$PATH
 
 source ~/dotfiles/antigen/antigen.zsh
 
@@ -11,13 +11,13 @@ antigen bundle command-not-found
 antigen bundle common-aliases
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-history-substring-search 
+antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle ssh-agent
 
 if [[ $CURRENT_OS == 'OS X' ]]; then
-	antigen bundle brew
+    antigen bundle brew
 elif [[ $CURRENT_OS == 'Cygwin' ]]; then
-	antigen bundle cygwin
+    antigen bundle cygwin
 fi
 
 # Load the theme

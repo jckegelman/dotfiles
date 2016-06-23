@@ -13,7 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Vim bundles
 Plugin 'tpope/vim-sensible'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-latex/vim-latex'
+Plugin 'lervag/vimtex'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
@@ -99,7 +99,7 @@ nnoremap <C-Tab> <C-W><C-W>
 " split windows to the right
 set splitright
 
-"============= Session Handling ===============================================
+"============= Session Handling ==============================================
 
 " specify directory to save sessions
 let g:session_dir = $HOME."/.vim/session"
@@ -196,7 +196,7 @@ set noswapfile " suppress creation of swap files
 set nobackup   " suppress creation of backup files
 set nowb       " suppress creation of ~ files
 
-"============= Solarized ======================================================
+"============= Solarized =====================================================
 
 if has('gui_running')
     set background=light
@@ -208,12 +208,9 @@ endif
 
 colorscheme solarized
 
-"============= LaTeX =========================================================
-set shellslash
-
-set grepprg=grep\ -nH\ $*
+"============= LaTeX & vimtex ================================================
 
 let g:tex_flavor='latex'
-let g:Tex_CompileRule_pdf = "pdflatex -interaction=nonstopemode %:r & bibtex %:r & pdflatex -interaction=nonstopmode %:r"
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_MultipleCompileFormats='pdf'
+let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+let g:vimtex_view_general_options_latexmk = '-r 1'
