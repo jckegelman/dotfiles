@@ -201,8 +201,6 @@ set nowb       " suppress creation of ~ files
 if has('gui_running')
     set background=light
 else
-    set t_Co=256
-    let g:solarized_termcolors=256
     set background=dark
 endif
 
