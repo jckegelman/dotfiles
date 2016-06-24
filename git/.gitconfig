@@ -3,5 +3,6 @@
 	email = kegelman@stanford.edu
 [core]
 	editor = vim
+	trustctime = false
 [push]
 	default = simple

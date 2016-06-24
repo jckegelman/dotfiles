@@ -20,7 +20,14 @@ Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()         " required
 filetype plugin indent on " required
 
-"============= UI ========= ==================================================
+" detect OS
+if has("win32")
+    let s:os = "Windows"
+else
+    let s:os = substitute(system('uname'), '\n', '', '')
+endif
+
+"============= UI ============================================================
 set number       " show line numbers
 set laststatus=2 " always show status line
 set wildmenu     " better command-line completion
@@ -29,8 +36,22 @@ set backspace=indent,eol,start " backspace over everything in insert mode
 
 if has('gui_running')
     set lines=35 columns=108 " adjust window size for gui
-    set guifont=Meslo\ LG\ M\ Regular
+    if s:os == "Darwin"
+        set guifont=Meslo\ LG\ M\ Regular
+    elseif s:os == "Windows"
+        set guifont=Monaco
+    endif
 endif
+
+set cursorline           " highlight line with cursor
+
+if v:version >= 703
+    set colorcolumn=80 " highlight column 80
+endif
+
+set scrolloff=3          " 3 line offset when scrolling
+
+set guicursor=a:blinkon0 " turn off cursor blink
 
 "============= Key Mappings ==================================================
 
@@ -159,17 +180,6 @@ endfunc
 set spell          " enable in-line spellcheck
 set spelllang=en
 
-"============= Scrolling and Position ========================================
-set cursorline           " highlight line with cursor
-
-if v:version >= 703
-    set colorcolumn=80 " highlight column 80
-endif
-
-set scrolloff=3          " 3 line offset when scrolling
-
-set guicursor=a:blinkon0 " turn off cursor blink
-
 "============= Search & Matching =============================================
 
 set showcmd   " show partial command in status line
@@ -209,6 +219,18 @@ colorscheme solarized
 "============= LaTeX & vimtex ================================================
 
 let g:tex_flavor='latex'
-let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-let g:vimtex_view_general_options = '-r @line @pdf @tex'
-let g:vimtex_view_general_options_latexmk = '-r 1'
+if s:os == "Darwin"
+    let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+    let g:vimtex_view_general_options = '-r @line @pdf @tex'
+    let g:vimtex_view_general_options_latexmk = '-r 1'
+elseif s:os == "Windows"
+    let g:vimtex_view_general_viewer = 'SumatraPDF -reuse-instance '
+                \ . '-inverse-search "gvim --servername ' . v:servername
+                \ . ' --remote-send \"^<C-\^>^<C-n^>'
+                \ . ':drop \%f^<CR^>:\%l^<CR^>:normal\! zzzv^<CR^>'
+                \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
+                \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
+                \ . ':call remote_foreground('''.v:servername.''')^<CR^>\""'
+    let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
+    let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+endif

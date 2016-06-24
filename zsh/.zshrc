@@ -1,4 +1,6 @@
-export PATH=/Library/TeX/texbin:/usr/local/bin:$PATH
+if [[ $OSTYPE == "darwin"* ]]; then
+    export PATH=/Library/TeX/texbin:/usr/local/bin:$PATH
+fi
 
 source ~/dotfiles/antigen/antigen.zsh
 
@@ -6,18 +8,17 @@ source ~/dotfiles/antigen/antigen.zsh
 antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh)
-antigen bundle git
 antigen bundle command-not-found
 antigen bundle common-aliases
+antigen bundle git
+antigen bundle ssh-agent
+antigen bundle vundle
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle ssh-agent
 
-if [[ $CURRENT_OS == 'OS X' ]]; then
+if [[ $OSTYPE == "darwin"* ]]; then
     antigen bundle brew
-elif [[ $CURRENT_OS == 'Cygwin' ]]; then
-    antigen bundle cygwin
 fi
 
 # Load the theme
@@ -26,7 +27,12 @@ antigen theme mh
 # Tell antigen that you're done
 antigen apply
 
-# Bind keyboard shortcuts for iTerm2 running on Apple MacBook laptops
 zmodload zsh/terminfo
-bindkey "$terminfo[cuu1]" history-substring-search-up
-bindkey "$terminfo[cud1]" history-substring-search-down
+if [[ $OSTYPE == "darwin"* ]]; then
+    # Bind keyboard shortcuts for iTerm2 running on Apple MacBook laptops
+    bindkey "$terminfo[cuu1]" history-substring-search-up
+    bindkey "$terminfo[cud1]" history-substring-search-down
+elif [[ $OSTYPE == "cygwin" ]]; then
+    bindkey "$terminfo[kcuu1]" history-substring-search-up
+    bindkey "$terminfo[kcud1]" history-substring-search-down
+fi
