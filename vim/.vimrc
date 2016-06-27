@@ -16,12 +16,13 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'lervag/vimtex'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'scrooloose/nerdcommenter'
 
 call vundle#end()         " required
 filetype plugin indent on " required
 
 " detect OS
-if has("win32")
+if has("win32") || has("win32unix")
     let s:os = "Windows"
 else
     let s:os = substitute(system('uname'), '\n', '', '')
@@ -224,13 +225,7 @@ if s:os == "Darwin"
     let g:vimtex_view_general_options = '-r @line @pdf @tex'
     let g:vimtex_view_general_options_latexmk = '-r 1'
 elseif s:os == "Windows"
-    let g:vimtex_view_general_viewer = 'SumatraPDF -reuse-instance '
-                \ . '-inverse-search "gvim --servername ' . v:servername
-                \ . ' --remote-send \"^<C-\^>^<C-n^>'
-                \ . ':drop \%f^<CR^>:\%l^<CR^>:normal\! zzzv^<CR^>'
-                \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
-                \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
-                \ . ':call remote_foreground('''.v:servername.''')^<CR^>\""'
+    let g:vimtex_view_general_viewer  = 'SumatraPDF'
     let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-    let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+    let g:vimtex_latexmk_callback = 0
 endif
