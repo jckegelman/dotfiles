@@ -1,5 +1,7 @@
 if [[ $OSTYPE == "darwin"* ]]; then
     export PATH=/Library/TeX/texbin:/usr/local/bin:$PATH
+elif [[ $OSTYPE == "cygwin" ]]; then
+    export PATH=/cygdrive/C/Program\ Files/SumatraPDF:$PATH
 fi
 
 source ~/dotfiles/antigen/antigen.zsh
