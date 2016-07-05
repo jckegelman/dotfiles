@@ -1,13 +1,13 @@
 " Vim Settings
 " John Kegelman
 
-set nocompatible        " be iMproved, required
+set nocompatible        " be iMproved
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
+" let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
 
 " Vim bundles
@@ -17,9 +17,11 @@ Plugin 'lervag/vimtex'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'ctrlpvim/ctrlp.vim'
 
-call vundle#end()         " required
-filetype plugin indent on " required
+call vundle#end()
+filetype plugin indent on
 
 " detect OS
 if has("win32") || has("win32unix")
@@ -30,7 +32,6 @@ endif
 
 "============= UI ============================================================
 set number       " show line numbers
-set laststatus=2 " always show status line
 set wildmenu     " better command-line completion
 set mouse=a      " enable mouse for all modes
 set backspace=indent,eol,start " backspace over everything in insert mode
@@ -105,21 +106,27 @@ set pastetoggle=<F2>
 " buffers can exist in background
 set hidden
 
+" <leader>T to open a new empty buffer
+nmap <leader>T :enew<CR>
+
+" <leader>bq to close the current buffer and move to the previous one
+nmap <leader>bq :bp <BAR> bd #<CR>
+
 " automatically save before commands
-set autowrite
+"set autowrite
 
 " buffer browsing with left/right arrows
-nnoremap <Left> :bprev<CR>
-nnoremap <Right> :bnext<CR>
+"nnoremap <Left> :bprev<CR>
+"nnoremap <Right> :bnext<CR>
 
 " jump to previous buffer with Tab
-nnoremap <Tab> <C-^>
+"nnoremap <Tab> <C-^>
 
 " use Ctrl-Tab to toggle between splits
-nnoremap <C-Tab> <C-W><C-W>
+"nnoremap <C-Tab> <C-W><C-W>
 
 " split windows to the right
-set splitright
+"set splitright
 
 "============= Session Handling ==============================================
 
@@ -230,6 +237,14 @@ elseif s:os == "Windows"
     let g:vimtex_latexmk_callback = 0
 endif
 
+"============= airline =======================================================
+
+" show list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" show just the file name
+let g:airline#extensions#tabline#fnamemod = ':t'
+
 "============= NERD Commenter ================================================
 
 " Align line-wise comment delimiters flush left instead of following code indentation
@@ -237,3 +252,16 @@ let g:NERDDefaultAlign = 'left'
 
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
+
+"============= CtrlP =========================================================
+
+" custom ignores
+let g:ctrlp_custom_ignore = {
+            \ 'dir':  '\v[\/](\.git)$',
+            \ 'file': '\v\.(png|jpg|jpeg)$',
+            \}
+
+" mappings for different modes
+nmap <leader>bb :CtrlPBuffer<CR>
+nmap <leader>bm :CtrlPMixed<CR>
+nmap <leader>bs :CtrlPMRU<CR>
