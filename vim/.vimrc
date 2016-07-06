@@ -1,27 +1,34 @@
 " Vim Settings
 " John Kegelman
 
-set nocompatible        " be iMproved
+set nocompatible " be iMproved
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" auto-install vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
-" let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-" Vim bundles
-Plugin 'tpope/vim-sensible'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'lervag/vimtex'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'ctrlpvim/ctrlp.vim'
+" vim plugins
+Plug 'altercation/vim-colors-solarized'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+Plug 'lervag/vimtex'
+Plug 'scrooloose/nerdtree',     { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'vimwiki/vimwiki'
 
-call vundle#end()
-filetype plugin indent on
+call plug#end()
 
 " detect OS
 if has("win32") || has("win32unix")
@@ -31,10 +38,16 @@ else
 endif
 
 "============= UI ============================================================
-set number       " show line numbers
-set wildmenu     " better command-line completion
-set mouse=a      " enable mouse for all modes
+
+set number                     " show line numbers
+set laststatus=2               " always show status line
+set wildmenu                   " better command-line completion
+set mouse=a                    " enable mouse for all modes
 set backspace=indent,eol,start " backspace over everything in insert mode
+set cursorline                 " highlight line with cursor
+set scrolloff=3                " 3 line offset when scrolling
+set guicursor=a:blinkon0       " turn off cursor blink
+set nostartofline              " keep cursor on same column
 
 if has('gui_running')
     set lines=35 columns=108 " adjust window size for gui
@@ -45,15 +58,9 @@ if has('gui_running')
     endif
 endif
 
-set cursorline           " highlight line with cursor
-
 if v:version >= 703
     set colorcolumn=80 " highlight column 80
 endif
-
-set scrolloff=3          " 3 line offset when scrolling
-
-set guicursor=a:blinkon0 " turn off cursor blink
 
 "============= Key Mappings ==================================================
 
@@ -201,8 +208,6 @@ set smartcase  " case-sensitive for searches with uppercase
 
 "============= Syntax Highlighting & Indents =================================
 
-syntax enable     " enable syntax highlighting
-
 set autoindent    " always indent
 set shiftwidth=4  " auto-indent with 4 spaces
 set softtabstop=4 " <TAB> and <BS> for 4 spaces
@@ -245,14 +250,6 @@ let g:airline#extensions#tabline#enabled = 1
 " show just the file name
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-"============= NERD Commenter ================================================
-
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-
 "============= CtrlP =========================================================
 
 " custom ignores
@@ -265,3 +262,16 @@ let g:ctrlp_custom_ignore = {
 nmap <leader>bb :CtrlPBuffer<CR>
 nmap <leader>bm :CtrlPMixed<CR>
 nmap <leader>bs :CtrlPMRU<CR>
+
+"============= vim-easy-align ================================================
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+"============= syntastic =====================================================
+
+" load a chktexrc file with chktex
+let g:syntastic_tex_chktex_args = "-l ~/.chktexrc"
