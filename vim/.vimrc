@@ -64,6 +64,8 @@ set ignorecase                 " case-insensitive search
 set incsearch                  " incremental search
 set laststatus=2               " always show status line
 set lazyredraw                 " only redraw screen when needed
+set list                       " show following whitespace characters
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set mouse=a                    " enable mouse for all modes
 set nobackup                   " suppress creation of backup files
 set nostartofline              " keep cursor on same column
@@ -71,15 +73,17 @@ set noswapfile                 " suppress creation of swap files
 set nowb                       " suppress creation of ~ files
 set number                     " show line numbers
 set pastetoggle=<F2>           " <F2> toggles paste mode
-set scrolloff=3                " 3 line offset when scrolling
+set scrolloff=3                " 3 row offset when scrolling
 set shiftround                 " round indent to multiple of 'shiftwidth'
-set shiftwidth=4               " auto-indent with 4 spaces
 set showcmd                    " show partial command in status line
 set showmatch                  " show matching brackets
+set sidescrolloff=5            " 5 column offset when scrolling
 set smartcase                  " case-sensitive for searches with uppercase
 set smarttab                   " <TAB> at start of line, spaces elsewhere
 set spelllang=en_us            " check spelling with American English
 set softtabstop=4              " <TAB> and <BS> for 4 spaces
+set ttimeout                   " timeout on key mappings
+set ttimeoutlen=100            " reduce key timeout to 100ms
 set visualbell                 " use visual bell instead of beeping
 set wildmenu                   " better command-line completion
 set wildmode=full              " complete the next full match
@@ -97,13 +101,6 @@ if exists('&colorcolumn')
     set colorcolumn=80        " highlight column 80
 endif
 
-" use The Silver Searcher, if available
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor\ --nocolumn
-else
-    set grepprg=grep\ -rnH\ --exclude-dir=\.git\ $*
-endif
-
 " join commented lines intelligently
 if has('patch-7.3.541')
     set formatoptions+=j
@@ -111,29 +108,27 @@ endif
 
 "============= Key Mappings ==================================================
 
-" map Leader key to <space>
-nnoremap <space> <nop>
-let mapleader = "\<space>"
+" map Leader key to <Space>
+nnoremap <Space> <nop>
+let mapleader = "\<Space>"
 
 " Y yanks until EOL
 nnoremap Y y$
 
+" paste from system clipboard
+if s:os == "Darwin"
+    " special case for iTerm2
+    noremap <Leader>p :read !pbpaste<CR>
+endif
+
 " ';' issues commands in normal mode
 nnoremap ; :
 
-" <Leader><space> clears the search highlights
-noremap <silent> <Leader><space> :nohlsearch<CR>
+" <C-L> clears the search highlights
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 " <Leader><CR> breaks a line at cursor without exiting normal mode
 nnoremap <silent> <Leader><CR> i<CR><ESC>
-
-" <Leader>o/O inserts a blank line in normal mode
-nnoremap <silent> <Leader>o o<ESC>
-nnoremap <silent> <Leader>O O<ESC>
-
-" +/- increments/decrements numbers
-nnoremap + <C-a>
-nnoremap - <C-x>
 
 " Ctrl-BS deletes last word in insert mode
 inoremap <C-BS> <ESC>bcw
@@ -141,72 +136,55 @@ inoremap <C-BS> <ESC>bcw
 " Ctrl-Del deletes next word in insert mode
 inoremap <C-Del> <ESC>wcw
 
-" <Leader>T to open a new empty buffer
-nmap <Leader>T :enew<CR>
+" reselect vidual block after indent/outdent
+xnoremap < <gv
+xnoremap > >gv
 
-" <Leader>bq to close the current buffer and move to the previous one
-nmap <Leader>bq :bp <bar> bd #<CR>
+" <Leader>T opens a new empty buffer
+nnoremap <Leader>T :enew<CR>
+
+" <Leader>bq closes the current buffer and moves to the previous one
+nnoremap <Leader>bq :bp <bar> bd #<CR>
 
 " modify undo behavior in insert mode
-inoremap <C-u> <C-g>u<C-u>
-inoremap <C-w> <C-g>u<C-w>
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
 
-" saving
+" save with <Leader>
 nnoremap <Leader>s :update<CR>
 nnoremap <Leader>w :update<CR>
 
-" quitting
+" quit with <Leader>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :qa!<CR>
 
-" escaping
-inoremap jk <ESC>
-xnoremap jk <ESC>
-cnoremap jk <C-c>
+" escape insert mode with "jj"
+inoremap jj <ESC>
 
 " movement in insert mode
-inoremap <C-h> <C-o>h
-inoremap <C-l> <C-o>l
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-inoremap <C-^> <C-o><C-^>
+inoremap <C-H> <C-O>h
+inoremap <C-L> <C-O>l
+inoremap <C-J> <C-O>j
+inoremap <C-K> <C-O>k
+inoremap <C-^> <C-O><C-^>
 
 " circular windows navigation
-nnoremap <TAB>   <C-w>w
-nnoremap <S-TAB> <C-w>W
-
-" moving lines
-nnoremap <silent> <C-k> :move-2<CR>
-nnoremap <silent> <C-j> :move+<CR>
-nnoremap <silent> <C-h> <<
-nnoremap <silent> <C-l> >>
-xnoremap <silent> <C-k> :move-2<CR>gv
-xnoremap <silent> <C-j> :move'>+<CR>gv
-xnoremap <silent> <C-h> <gv
-xnoremap <silent> <C-l> >gv
-xnoremap < <gv
-xnoremap < >gv
+nnoremap <TAB>   <C-W>w
+nnoremap <S-TAB> <C-W>W
 
 "============= handy commands  ===============================================
+
 " from tpope on github
-
-" toggle dark/light background with ":Invert"
-command! -bar Invert :let &background = (&background=="light"?"dark":"light")
-
 " increase/decrease gui font size with ":Bigger" / ":Smaller"
 command! -bar -nargs=0 Bigger  :let &guifont = substitute(&guifont,'\d\+$','\=submatch(0)+1','')
 command! -bar -nargs=0 Smaller :let &guifont = substitute(&guifont,'\d\+$','\=submatch(0)-1','')
 
 augroup vimrc
     autocmd!
-    " from tpope
     autocmd FocusGained * if !has('win32') | silent! call fugitive#reload_status*() | endif
     autocmd FileType gitcommit setlocal spell
     autocmd FileType help nnoremap <silent><buffer> q :q<CR>
-
-    " from junegunn
-    autocmd BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
-    autocmd InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
+    autocmd FocusLost * silent! :wa
 augroup END
 
 "============= Session Handling ==============================================
@@ -275,6 +253,29 @@ endif
 
 colorscheme solarized
 
+"============= FZF ===========================================================
+
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<C-W>\<C-W>" : '').":Files\<CR>"
+nnoremap <silent> <Leader>C       :Colors<CR>
+nnoremap <silent> <Leader><Enter> :Buffers<CR>
+nnoremap <silent> <Leader>ag      :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>AG      :Ag <C-R><C-A><CR>
+nnoremap <silent> <Leader>`       :Marks<CR>
+
+" mappings
+nmap <Leader><Tab> <Plug>(fzf-maps-n)
+xmap <Leader><Tab> <Plug>(fzf-maps-x)
+omap <Leader><Tab> <Plug>(fzf-maps-o)
+
+" insert mode completions
+imap <C-x><C-k> <Plug>(fzf-complete-word)
+imap <C-x><C-f> <Plug>(fzf-complete-path)
+imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
+imap <C-x><C-l> <Plug>(fzf-complete-line)
+
+" Advanced customization using autoload functions
+inoremap <expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
+
 "============= vim-easy-align ================================================
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -304,6 +305,16 @@ endif
 let g:undotree_WindowLayout = 2
 nnoremap U :UndotreeToggle<CR>
 
+"============= ack.vim ======================================================
+
+" use The Silver Searcher, if available
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+elseif
+    set grepprg=grep\ -rnH\ --exclude-dir=\.git\ $*\ *
+endif
+command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
+
 "============= NERDTree ======================================================
 
 let g:NERDTreeHijackNetrw = 0      " make sure NERDTree does not hijack netrw
@@ -320,6 +331,11 @@ let g:syntastic_auto_loc_list = 1                  " auto open/close location-li
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
+"============= vim-fugitive ==================================================
+
+nmap     <Leader>g :Gstatus<CR>gg<C-n>
+nnoremap <Leader>d :Gdiff<CR>
+
 "============= vim-surround ==================================================
 
 " enable automatic re-indenting
@@ -332,6 +348,9 @@ let g:airline#extensions#tabline#enabled = 1
 
 " show just the file name
 let g:airline#extensions#tabline#fnamemod = ':t'
+
+" disable vim-airline's branch extension to avoid fzf errors
+let g:airline#extensions#branch#enabled = 0
 
 "============= indentLine ====================================================
 
