@@ -26,6 +26,7 @@ Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-unimpaired'
