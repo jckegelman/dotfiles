@@ -15,7 +15,6 @@ antigen bundle command-not-found
 antigen bundle common-aliases
 antigen bundle git
 antigen bundle ssh-agent
-antigen bundle vundle
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search
@@ -39,3 +38,6 @@ elif [[ $OSTYPE == "cygwin" ]]; then
     bindkey "$terminfo[kcuu1]" history-substring-search-up
     bindkey "$terminfo[kcud1]" history-substring-search-down
 fi
+
+# fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
