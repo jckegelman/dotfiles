@@ -328,7 +328,7 @@ nnoremap U :UndotreeToggle<CR>
 " use The Silver Searcher, if available
 if executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor\ --column
-elseif
+else
     set grepprg=grep\ -rnH\ --exclude-dir=\.git\ $*\ *
 endif
 command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
