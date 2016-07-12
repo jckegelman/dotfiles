@@ -14,6 +14,7 @@ call plug#begin('~/.vim/plugged')
 
 " vim plugins
 Plug 'altercation/vim-colors-solarized'
+Plug 'eiginn/netrw'
 Plug 'junegunn/fzf',            { 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
@@ -127,9 +128,6 @@ nnoremap ; :
 
 " <C-L> clears the search highlights
 nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
-
-" <Leader><CR> breaks a line at cursor without exiting normal mode
-nnoremap <silent> <Leader><CR> i<CR><ESC>
 
 " Ctrl-BS deletes last word in insert mode
 inoremap <C-BS> <ESC>bcw
@@ -287,8 +285,10 @@ nmap ga <Plug>(EasyAlign)
 
 "============= LaTeX & vimtex ================================================
 
-let g:tex_flavor='latex'        " correct filetype detection
-let g:vimtex_imaps_Leader = ';' " change insert mode Leader key from '`' to ';'
+let g:tex_flavor='latex'            " correct filetype detection
+let g:vimtex_imaps_Leader = ';'     " change insert mode Leader key from '`' to ';'
+let g:vimtex_latexmk_continuous = 0 " disable continuous mode
+let g:vimtex_latexmk_background = 1 " compile in background
 
 " configure PDF viewer
 if s:os == "Darwin"
@@ -322,6 +322,10 @@ endif
 
 let g:undotree_WindowLayout = 2
 nnoremap U :UndotreeToggle<CR>
+if has("persistent_undo")
+    set undodir=~/.undodir/
+    set undofile
+endif
 
 "============= ack.vim ======================================================
 

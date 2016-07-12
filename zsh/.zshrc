@@ -3,6 +3,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
 elif [[ $OSTYPE == "cygwin" ]]; then
     export PATH=/cygdrive/C/Program\ Files/SumatraPDF:$PATH
     export DISPLAY=:0.0
+    export VIMRUNTIME=/usr/local/share/vim/vim74
 fi
 
 source ~/dotfiles/antigen/antigen.zsh
