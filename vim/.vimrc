@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
 " vim plugins
 Plug 'altercation/vim-colors-solarized'
 Plug 'eiginn/netrw'
-Plug 'junegunn/fzf',            { 'do': './install --all'  }
+Plug 'junegunn/fzf',            { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
