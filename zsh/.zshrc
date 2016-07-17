@@ -1,3 +1,4 @@
+# OS specific paths
 if [[ $OSTYPE == "darwin"* ]]; then
     export PATH=/Library/TeX/texbin:/usr/local/bin:$PATH
 elif [[ $OSTYPE == "cygwin" ]]; then
@@ -22,6 +23,10 @@ antigen bundle zsh-users/zsh-history-substring-search
 
 if [[ $OSTYPE == "darwin"* ]]; then
     antigen bundle brew
+elif [[ $OSTYPE == "cygwin" ]]; then
+    antigen bundle rbenv
+    antigen bundle ruby
+    antigen bundle gem
 fi
 
 # Load the theme
@@ -42,3 +47,10 @@ fi
 
 # fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# path to rbenv on Windows
+if [[ $OSTYPE == "cygwin" ]]; then
+    export RBENV_ROOT=/cygdrive/c/Users/Kegelman/.rbenv
+    export PATH="$RBENV_ROOT/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
