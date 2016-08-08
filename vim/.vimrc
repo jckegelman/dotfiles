@@ -356,6 +356,7 @@ let g:syntastic_tex_chktex_args = "-l ~/.chktexrc" " load a chktexrc file with c
 
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
+autocmd FileType matlab setlocal commentstring=%\ %s
 
 "============= vim-fugitive ==================================================
 
