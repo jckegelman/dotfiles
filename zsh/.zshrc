@@ -4,7 +4,11 @@ if [[ $OSTYPE == "darwin"* ]]; then
 elif [[ $OSTYPE == "cygwin" ]]; then
     export PATH=/cygdrive/C/Program\ Files/SumatraPDF:$PATH
     export DISPLAY=:0.0
-    export VIMRUNTIME=/usr/local/share/vim/vim74
+    if [ -d "/usr/local/share/vim/vim74" ]; then
+        export VIMRUNTIME=/usr/local/share/vim/vim74
+    elif [ -d "usr/share/vim/vim74" ]; then
+        export VIMRUNTIME=/usr/share/vim/vim74
+    fi
 fi
 
 source ~/dotfiles/antigen/antigen.zsh
@@ -50,7 +54,9 @@ fi
 
 # path to rbenv on Windows
 if [[ $OSTYPE == "cygwin" ]]; then
-    export RBENV_ROOT=/cygdrive/c/Users/Kegelman/.rbenv
-    export PATH="$RBENV_ROOT/bin:$PATH"
-    eval "$(rbenv init -)"
+    if command -v rbenv >/dev/null; then
+        export RBENV_ROOT=/cygdrive/c/Users/Kegelman/.rbenv
+        export PATH="$RBENV_ROOT/bin:$PATH"
+        eval "$(rbenv init -)"
+    fi
 fi
