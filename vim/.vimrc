@@ -283,6 +283,15 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
+if !exists('g:easy_align_delimiters')
+    let g:easy_align_delimiters = {}
+endif
+let g:easy_align_delimiters['m'] = {
+\ 'pattern': ',\|\([)\]}];\)',
+\ 'left_margin': 0,
+\ 'stick_to_left': 0
+\ }
+
 "============= LaTeX & vimtex ================================================
 
 let g:tex_flavor='latex'            " correct filetype detection
