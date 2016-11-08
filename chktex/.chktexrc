@@ -5,8 +5,3 @@ DashExcpt
 }
 
 QuoteStyle = Traditional
-
-Silent
-{
-    \toprule \midrule \bottomrule
-}
