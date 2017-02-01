@@ -133,3 +133,6 @@ function pdf_split(){
 alias config='/usr/bin/git --git-dir=/home/kegelman/.cfg/ --work-tree=/home/kegelman'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# added by Anaconda3 4.2.0 installer
+export PATH="/home/kegelman/anaconda3/bin:$PATH"
