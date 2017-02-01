@@ -386,9 +386,6 @@ let g:airline#extensions#tabline#enabled = 1
 " show just the file name
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-" disable vim-airline's branch extension to avoid fzf errors
-let g:airline#extensions#branch#enabled = 0
-
 "============= indentLine ====================================================
 
 " disable indentLine
