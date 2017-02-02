@@ -13,20 +13,14 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " vim plugins
-Plug 'altercation/vim-colors-solarized'
+Plug 'airblade/vim-gitgutter'
+Plug 'edkolev/tmuxline.vim'
 Plug 'eiginn/netrw'
-Plug 'junegunn/fzf',            { 'dir': '~/.fzf', 'do': './install --all'  }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-Plug 'justinmk/vim-gtfo'
 Plug 'lervag/vimtex'
-Plug 'mbbill/undotree',         { 'on': 'UndotreeToggle'   }
-Plug 'scrooloose/nerdtree',     { 'on': 'NERDTreeToggle'   }
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-tbone'
@@ -35,8 +29,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
-Plug 'vimwiki/vimwiki'
-Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
@@ -84,6 +76,7 @@ set smartcase                  " case-sensitive for searches with uppercase
 set smarttab                   " <TAB> at start of line, spaces elsewhere
 set spelllang=en_us            " check spelling with American English
 set softtabstop=4              " <TAB> and <BS> for 4 spaces
+set t_Co=256                   " use 256 colors
 set ttimeout                   " timeout on key mappings
 set ttimeoutlen=100            " reduce key timeout to 100ms
 set visualbell                 " use visual bell instead of beeping
@@ -242,40 +235,6 @@ function! OpenSession()
     endif
 endfunc
 
-"============= Solarized =====================================================
-
-let g:solarized_termcolors=256
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
-
-colorscheme solarized
-
-"============= FZF ===========================================================
-
-nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<C-W>\<C-W>" : '').":Files\<CR>"
-nnoremap <silent> <Leader>C       :Colors<CR>
-nnoremap <silent> <Leader><Enter> :Buffers<CR>
-nnoremap <silent> <Leader>ag      :Ag <C-R><C-W><CR>
-nnoremap <silent> <Leader>AG      :Ag <C-R><C-A><CR>
-nnoremap <silent> <Leader>`       :Marks<CR>
-
-" mappings
-nmap <Leader><Tab> <Plug>(fzf-maps-n)
-xmap <Leader><Tab> <Plug>(fzf-maps-x)
-omap <Leader><Tab> <Plug>(fzf-maps-o)
-
-" insert mode completions
-imap <C-x><C-k> <Plug>(fzf-complete-word)
-imap <C-x><C-f> <Plug>(fzf-complete-path)
-imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
-imap <C-x><C-l> <Plug>(fzf-complete-line)
-
-" Advanced customization using autoload functions
-inoremap <expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
-
 "============= vim-easy-align ================================================
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -328,30 +287,6 @@ elseif s:os == "Windows"
     let g:vimtex_latexmk_callback = 0
 endif
 
-"============= undotree ======================================================
-
-let g:undotree_WindowLayout = 2
-nnoremap U :UndotreeToggle<CR>
-if has("persistent_undo")
-    set undodir=~/.undodir/
-    set undofile
-endif
-
-"============= ack.vim ======================================================
-
-" use The Silver Searcher, if available
-if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
-else
-    set grepprg=grep\ -rnH\ --exclude-dir=\.git\ $*\ *
-endif
-command! -nargs=1 -bar Grep execute 'silent! grep! <q-args>' | redraw! | copen
-
-"============= NERDTree ======================================================
-
-let g:NERDTreeHijackNetrw = 0      " make sure NERDTree does not hijack netrw
-nnoremap <F10> :NERDTreeToggle<CR>
-
 "============= syntastic =====================================================
 
 let g:syntastic_always_populate_loc_list = 1 " fill location-list with errors
@@ -359,7 +294,6 @@ let g:syntastic_auto_loc_list = 2            " do not auto open but auto close l
 let g:syntastic_loc_list_height = 5          " height of location-list
 let g:syntastic_check_on_open = 1            " check when buffer is loaded
 let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
-
 let g:syntastic_tex_chktex_args = "-l ~/.chktexrc" " load a chktexrc file with chktex
 
 "============= vim-commentary ================================================
@@ -380,18 +314,23 @@ let g:surround_indent = 1
 
 "============= vim-airline ===================================================
 
-" show list of buffers
-let g:airline#extensions#tabline#enabled = 1
-
-" show just the file name
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-"============= indentLine ====================================================
-
-" disable indentLine
-let g:indentLine_enabled = 0
+let g:airline_theme='bubblegum'
+let g:airline_powerline_fonts = 1                " enable powerline symbols
+let g:airline#extensions#tabline#enabled = 1     " show list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t' " show just the file name
 
 "============= matchit.vim ===================================================
 
 " extend "%" matching
 runtime macros/matchit.vim
+
+"============= tmuxline.vim ==================================================
+
+let g:tmuxline_preset = {
+    \'a'    : '#S',
+    \'b'    : '#W',
+    \'cwin' : ['#I', '#W'],
+    \'win'  : ['#I', '#W'],
+    \'x'    : '#{?client_prefix,Prefix,      }',
+    \'y'    : ['%a', '%e-%b-%Y', '%l:%M%p'],
+    \'z'    : '#h'}
