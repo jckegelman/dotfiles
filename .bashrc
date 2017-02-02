@@ -130,7 +130,9 @@ function pdf_split(){
         done;
     done;
 };
-alias config='/usr/bin/git --git-dir=/home/kegelman/.cfg/ --work-tree=/home/kegelman'
+
+# dotfiles repo
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
