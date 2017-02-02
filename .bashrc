@@ -112,8 +112,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-alias bfg='java -jar /home/kegelman/bfg/bfg.jar'
 
+# for splitting pdfs
 function pdf_split(){
     for file in "$@"; do
         if [ "${file##*.}" != "pdf" ]; then
@@ -131,9 +131,29 @@ function pdf_split(){
     done;
 };
 
-# dotfiles repo
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# for starting ssh-agent
+SSH_ENV="$HOME/.ssh/env"
+function start_agent {
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+}
 
+# source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    #ps ${SSH_AGENT_PID} doesn't work under cywgin
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+        start_agent;
+    }
+else
+    start_agent;
+fi
+
+# added by fzf installer
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # added by Anaconda3 4.2.0 installer
