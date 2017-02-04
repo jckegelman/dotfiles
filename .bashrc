@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -152,6 +152,29 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
+
+# helper function to reshresh environment if inside tmux
+if [ -n "$TMUX" ]; then
+    function refresh {
+        sshauth=$(tmux show-environment | grep "^SSH_AUTH_SOCK")
+        if [ $sshauth ]; then
+            export $sshauth
+        fi
+        display=$(tmux show-environment | grep "^DISPLAY")
+        if [ $display ]; then
+            export $display
+        fi
+    }
+else
+    function refresh {
+        true
+    }
+fi
+
+# add pre-execution function
+function preexec {
+    refresh
+}
 
 # added by fzf installer
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
