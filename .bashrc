@@ -153,7 +153,7 @@ else
     start_agent;
 fi
 
-# helper function to reshresh environment if inside tmux
+# helper function to refresh environment if inside tmux
 if [ -n "$TMUX" ]; then
     function refresh {
         sshauth=$(tmux show-environment | grep "^SSH_AUTH_SOCK")
@@ -175,9 +175,6 @@ fi
 function preexec {
     refresh
 }
-
-# added by fzf installer
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # added by Anaconda3 4.2.0 installer
 export PATH="$HOME/anaconda3/bin:$PATH"
