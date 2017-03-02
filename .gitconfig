@@ -5,6 +5,7 @@
 	editor = vim
 	trustctime = false
 	filemode = false
+	excludesfile = /cygdrive/c/Users/Kegelman/.gitignore_global
 [push]
 	default = simple
 [color]
