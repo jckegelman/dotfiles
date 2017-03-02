@@ -179,4 +179,6 @@ function preexec {
 # added by Anaconda3 4.2.0 installer
 export PATH="$HOME/anaconda3/bin:$PATH"
 
+export PATH=/cygdrive/C/Program\ Files/SumatraPDF:$PATH
 export VIMRUNTIME="/usr/local/share/vim/vim74"
+export DISPLAY=:0.0
