@@ -181,3 +181,5 @@ function preexec {
 
 # added by Anaconda3 4.2.0 installer
 export PATH="$HOME/anaconda3/bin:$PATH"
+
+export VIMRUNTIME="/usr/local/share/vim/vim74"
