@@ -93,7 +93,7 @@ if has('gui_running')
 endif
 
 if exists('&colorcolumn')
-    set colorcolumn=80        " highlight column 80
+    set colorcolumn=120        " highlight column 120
 endif
 
 " join commented lines intelligently
