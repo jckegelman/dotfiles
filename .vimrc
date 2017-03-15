@@ -92,10 +92,6 @@ if has('gui_running')
     endif
 endif
 
-if exists('&colorcolumn')
-    set colorcolumn=120        " highlight column 120
-endif
-
 " join commented lines intelligently
 if has('patch-7.3.541')
     set formatoptions+=j
