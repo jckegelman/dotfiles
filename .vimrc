@@ -32,13 +32,6 @@ Plug 'vim-scripts/ReplaceWithRegister'
 
 call plug#end()
 
-" detect OS
-if has("win32") || has("win32unix")
-    let s:os = "Windows"
-else
-    let s:os = substitute(system('uname'), '\n', '', '')
-endif
-
 "============= Options ===================================================
 
 set autoindent                 " always indent
@@ -85,11 +78,7 @@ set wildmode=full              " complete the next full match
 
 if has('gui_running')
     set lines=35 columns=108   " adjust window size for gui
-    if s:os == "Darwin"
-        set guifont=Meslo\ LG\ M\ Regular
-    elseif s:os == "Windows"
-        set guifont=Monaco
-    endif
+    set guifont=Meslo\ LG\ M\ Regular
 endif
 
 " join commented lines intelligently
@@ -105,12 +94,6 @@ let mapleader = "\<Space>"
 
 " Y yanks until EOL
 nnoremap Y y$
-
-" paste from system clipboard
-if s:os == "Darwin"
-    " special case for iTerm2
-    noremap <Leader>p :read !pbpaste<CR>
-endif
 
 " ';' issues commands in normal mode
 nnoremap ; :
