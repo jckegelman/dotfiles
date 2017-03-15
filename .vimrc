@@ -32,13 +32,6 @@ Plug 'vim-scripts/ReplaceWithRegister'
 
 call plug#end()
 
-" detect OS
-if has("win32") || has("win32unix")
-    let s:os = "Windows"
-else
-    let s:os = substitute(system('uname'), '\n', '', '')
-endif
-
 "============= Options ===================================================
 
 set autoindent                 " always indent
@@ -85,11 +78,7 @@ set wildmode=full              " complete the next full match
 
 if has('gui_running')
     set lines=35 columns=108   " adjust window size for gui
-    if s:os == "Darwin"
-        set guifont=Meslo\ LG\ M\ Regular
-    elseif s:os == "Windows"
-        set guifont=Monaco
-    endif
+    set guifont=Monaco
 endif
 
 " join commented lines intelligently
@@ -105,12 +94,6 @@ let mapleader = "\<Space>"
 
 " Y yanks until EOL
 nnoremap Y y$
-
-" paste from system clipboard
-if s:os == "Darwin"
-    " special case for iTerm2
-    noremap <Leader>p :read !pbpaste<CR>
-endif
 
 " ';' issues commands in normal mode
 nnoremap ; :
@@ -256,32 +239,9 @@ let g:vimtex_latexmk_continuous = 0 " disable continuous mode
 let g:vimtex_latexmk_background = 1 " compile in background
 
 " configure PDF viewer
-if s:os == "Darwin"
-    let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-    let g:vimtex_view_general_options = '-r @line @pdf @tex'
-    let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
-    function! UpdateSkim(status)
-        if !a:status | return | endif
-
-        let l:out = b:vimtex.out()
-        let l:tex = expand('%:p')
-        let l:cmd = [g:vimtex_view_general_viewer, '-r']
-        if !empty(system('pgrep Skim'))
-            call extend(l:cmd, ['-g'])
-        endif
-        if has('nvim')
-            call jobstart(l:cmd + [line('.'), l:out, l:tex])
-        elseif has('job')
-            call job_start(l:cmd + [line('.'), l:out, l:tex])
-        else
-            call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
-        endif
-    endfunction
-elseif s:os == "Windows"
-    let g:vimtex_view_general_viewer  = 'SumatraPDF'
-    let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-    let g:vimtex_latexmk_callback = 0
-endif
+let g:vimtex_view_general_viewer  = 'SumatraPDF'
+let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
+let g:vimtex_latexmk_callback = 0
 
 "============= syntastic =====================================================
 
