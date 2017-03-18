@@ -99,7 +99,7 @@ nnoremap Y y$
 nnoremap ; :
 
 " <C-L> clears the search highlights
-nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
 
 " Ctrl-BS deletes last word in insert mode
 inoremap <C-BS> <ESC>bcw
@@ -107,7 +107,7 @@ inoremap <C-BS> <ESC>bcw
 " Ctrl-Del deletes next word in insert mode
 inoremap <C-Del> <ESC>wcw
 
-" reselect vidual block after indent/outdent
+" reselect visual block after indent/outdent
 xnoremap < <gv
 xnoremap > >gv
 
@@ -142,6 +142,12 @@ inoremap <C-^> <C-O><C-^>
 " circular windows navigation
 nnoremap <TAB>   <C-W>w
 nnoremap <S-TAB> <C-W>W
+
+" navigate windows with Ctrl-h/j/k/l
+nnoremap <C-h> <C-W>h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> <C-W>l
 
 "============= handy commands  ===============================================
 
