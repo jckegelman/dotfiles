@@ -178,3 +178,6 @@ function preexec {
 
 # add brew to path
 export PATH=/usr/local/bin:$PATH
+
+# add TeX to path
+export PATH=/Library/TeX/texbin:$PATH
