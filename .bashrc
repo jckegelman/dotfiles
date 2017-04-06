@@ -114,7 +114,7 @@ if ! shopt -oq posix; then
 fi
 
 # for splitting pdfs
-function pdf_split(){
+pdf_split() {
     for file in "$@"; do
         if [ "${file##*.}" != "pdf" ]; then
             echo "Skipping $file because it is not a PDF";
@@ -129,11 +129,11 @@ function pdf_split(){
             Outfile[$i]="$filename-$i.pdf";
         done;
     done;
-};
+}
 
 # for starting ssh-agent
 SSH_ENV="$HOME/.ssh/env"
-function start_agent {
+start_agent() {
     echo "Initialising new SSH agent..."
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
     echo succeeded
@@ -155,7 +155,7 @@ fi
 
 # helper function to refresh environment if inside tmux
 if [ -n "$TMUX" ]; then
-    function refresh {
+    refresh() {
         sshauth=$(tmux show-environment | grep "^SSH_AUTH_SOCK")
         if [ $sshauth ]; then
             export $sshauth
@@ -166,13 +166,13 @@ if [ -n "$TMUX" ]; then
         fi
     }
 else
-    function refresh {
+    refresh() {
         true
     }
 fi
 
 # add pre-execution function
-function preexec {
+preexec() {
     refresh
 }
 
@@ -181,3 +181,6 @@ export PATH="/usr/local/MATLAB/R2017a/bin/glnxa64:$PATH"
 
 # added by Anaconda3 4.2.0 installer
 export PATH="$HOME/anaconda3/bin:$PATH"
+
+# source bash-preexec
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
