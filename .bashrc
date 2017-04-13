@@ -182,3 +182,6 @@ export PATH="$HOME/anaconda3/bin:$PATH"
 export PATH=/cygdrive/C/Program\ Files/SumatraPDF:$PATH
 export VIMRUNTIME="/usr/share/vim/vim74"
 export DISPLAY=:0.0
+
+# source bash-preexec
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
