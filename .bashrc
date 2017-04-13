@@ -182,5 +182,8 @@ export PATH="/usr/local/MATLAB/R2017a/bin/glnxa64:$PATH"
 # added by Anaconda3 4.2.0 installer
 export PATH="$HOME/anaconda3/bin:$PATH"
 
+# load custom dircolors
+[[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
+
 # source bash-preexec
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
