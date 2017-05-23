@@ -78,7 +78,7 @@ set wildmode=full              " complete the next full match
 
 if has('gui_running')
     set lines=35 columns=108   " adjust window size for gui
-    set guifont=Monaco
+    set guifont=Meslo\ LG\ M\ Regular
 endif
 
 " join commented lines intelligently
@@ -245,9 +245,10 @@ let g:vimtex_latexmk_continuous = 0 " disable continuous mode
 let g:vimtex_latexmk_background = 1 " compile in background
 
 " configure PDF viewer
-let g:vimtex_view_general_viewer  = 'SumatraPDF'
-let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-let g:vimtex_latexmk_callback = 0
+let g:vimtex_view_general_viewer = 'qpdfview'
+let g:vimtex_view_general_options
+  \ = '--unique @pdf\#src:@tex:@line:@col'
+let g:vimtex_view_general_options_latexmk = '--unique'
 
 "============= syntastic =====================================================
 
@@ -256,6 +257,7 @@ let g:syntastic_auto_loc_list = 2            " do not auto open but auto close l
 let g:syntastic_loc_list_height = 5          " height of location-list
 let g:syntastic_check_on_open = 1            " check when buffer is loaded
 let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
+let g:syntastic_tex_chktex_args = "-l ~/chktexrc" " load a chktexrc file with chktex
 
 "============= vim-commentary ================================================
 
