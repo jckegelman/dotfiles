@@ -157,7 +157,7 @@
 #  Logical      "An example", he said, "would be great".
 #
 
-QuoteStyle = Traditional
+QuoteStyle = Logical
 
 #####################################################################
 #
@@ -457,9 +457,13 @@ DashExcpt
 {
     Birch--Swinnerton-Dyer
     Kruskal--Wallis
+    Gauss--Newton
+    Gauss--Markov
     yaw rate--sideslip
     bias--variance
+    variance--covariance
     tire--road
+    driver--vehicle
 }
 
 #####################################################################
