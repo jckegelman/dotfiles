@@ -239,10 +239,8 @@ let g:easy_align_delimiters['m'] = {
 
 "============= LaTeX & vimtex ================================================
 
-let g:tex_flavor='latex'            " correct filetype detection
-let g:vimtex_imaps_Leader = ';'     " change insert mode Leader key from '`' to ';'
-let g:vimtex_latexmk_continuous = 0 " disable continuous mode
-let g:vimtex_latexmk_background = 1 " compile in background
+let g:tex_flavor='latex'        " correct filetype detection
+let g:vimtex_imaps_Leader = ';' " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
 let g:vimtex_view_general_viewer = 'qpdfview'
