@@ -176,8 +176,8 @@ preexec() {
     refresh
 }
 
-# add matlab to PATH (for mlint)
-export PATH="/usr/local/MATLAB/R2017a/bin/glnxa64:$PATH"
+# add TeX Live to PATH
+export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 
 # added by Anaconda3 4.2.0 installer
 export PATH="$HOME/anaconda3/bin:$PATH"
