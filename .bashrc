@@ -179,9 +179,6 @@ preexec() {
 # add TeX Live to PATH
 export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 
-# added by Anaconda3 4.2.0 installer
-export PATH="$HOME/anaconda3/bin:$PATH"
-
 # load custom dircolors
 [[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
 
