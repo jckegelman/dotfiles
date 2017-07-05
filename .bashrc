@@ -180,7 +180,11 @@ preexec() {
 export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 
 # change default editor to vim
-export EDITOR="/usr/local/bin/vim"
+if [ -x "/usr/local/bin/vim" ]; then
+    export EDITOR="/usr/local/bin/vim"
+else
+    export EDITOR="/usr/bin/vim"
+fi
 
 # load custom dircolors
 [[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
