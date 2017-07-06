@@ -182,7 +182,7 @@ export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 # change default editor to vim
 if [ -x "/usr/local/bin/vim" ]; then
     export EDITOR="/usr/local/bin/vim"
-else
+elif [ -x "/usr/bin/vim" ]; then
     export EDITOR="/usr/bin/vim"
 fi
 
