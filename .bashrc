@@ -182,6 +182,9 @@ preexec() {
 # add TeX Live to PATH
 export PATH="/usr/local/texlive/2016/bin/x86_64-linux:$PATH"
 
+# add clang-format to PATH
+export PATH="/usr/lib/llvm-3.8/bin:$PATH"
+
 # change default editor to vim
 if [ -x "/usr/local/bin/vim" ]; then
     export EDITOR="/usr/local/bin/vim"
