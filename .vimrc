@@ -60,6 +60,7 @@ set noswapfile                 " suppress creation of swap files
 set nowb                       " suppress creation of ~ files
 set number                     " show line numbers
 set pastetoggle=<F2>           " <F2> toggles paste mode
+set relativenumber             " show relative line numbers
 set scrolloff=3                " 3 row offset when scrolling
 set shiftround                 " round indent to multiple of 'shiftwidth'
 set showcmd                    " show partial command in status line
@@ -102,7 +103,7 @@ noremap <Leader>p :read !pbpaste<CR>
 nnoremap ; :
 
 " <C-L> clears the search highlights
-nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
 
 " Ctrl-BS deletes last word in insert mode
 inoremap <C-BS> <ESC>bcw
@@ -110,7 +111,7 @@ inoremap <C-BS> <ESC>bcw
 " Ctrl-Del deletes next word in insert mode
 inoremap <C-Del> <ESC>wcw
 
-" reselect vidual block after indent/outdent
+" reselect visual block after indent/outdent
 xnoremap < <gv
 xnoremap > >gv
 
@@ -145,6 +146,12 @@ inoremap <C-^> <C-O><C-^>
 " circular windows navigation
 nnoremap <TAB>   <C-W>w
 nnoremap <S-TAB> <C-W>W
+
+" navigate windows with Ctrl-h/j/k/l
+nnoremap <C-h> <C-W>h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> <C-W>l
 
 "============= handy commands  ===============================================
 
@@ -236,10 +243,8 @@ let g:easy_align_delimiters['m'] = {
 
 "============= LaTeX & vimtex ================================================
 
-let g:tex_flavor='latex'            " correct filetype detection
-let g:vimtex_imaps_Leader = ';'     " change insert mode Leader key from '`' to ';'
-let g:vimtex_latexmk_continuous = 0 " disable continuous mode
-let g:vimtex_latexmk_background = 1 " compile in background
+let g:tex_flavor='latex'        " correct filetype detection
+let g:vimtex_imaps_Leader = ';' " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
 let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'

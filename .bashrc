@@ -10,14 +10,17 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+# save and reload the history after each command finishes
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=100000
+HISTFILESIZE=100000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -114,7 +117,7 @@ if ! shopt -oq posix; then
 fi
 
 # for splitting pdfs
-function pdf_split(){
+pdf_split() {
     for file in "$@"; do
         if [ "${file##*.}" != "pdf" ]; then
             echo "Skipping $file because it is not a PDF";
@@ -129,11 +132,11 @@ function pdf_split(){
             Outfile[$i]="$filename-$i.pdf";
         done;
     done;
-};
+}
 
 # for starting ssh-agent
 SSH_ENV="$HOME/.ssh/env"
-function start_agent {
+start_agent() {
     echo "Initialising new SSH agent..."
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
     echo succeeded
@@ -155,7 +158,7 @@ fi
 
 # helper function to refresh environment if inside tmux
 if [ -n "$TMUX" ]; then
-    function refresh {
+    refresh() {
         sshauth=$(tmux show-environment | grep "^SSH_AUTH_SOCK")
         if [ $sshauth ]; then
             export $sshauth
@@ -166,13 +169,13 @@ if [ -n "$TMUX" ]; then
         fi
     }
 else
-    function refresh {
+    refresh() {
         true
     }
 fi
 
 # add pre-execution function
-function preexec {
+preexec() {
     refresh
 }
 
@@ -181,3 +184,13 @@ export PATH=/usr/local/bin:$PATH
 
 # add TeX to path
 export PATH=/Library/TeX/texbin:$PATH
+
+# change default editor to vim
+if [ -x "/usr/local/bin/vim" ]; then
+    export EDITOR="/usr/local/bin/vim"
+elif [ -x "/usr/bin/vim" ]; then
+    export EDITOR="/usr/bin/vim"
+fi
+
+# source bash-preexec
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
