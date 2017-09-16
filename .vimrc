@@ -165,6 +165,9 @@ augroup vimrc
     autocmd FocusLost * silent! :wa
 augroup END
 
+" switch between *.h and *.cc files and vice versa
+map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
+
 "============= Session Handling ==============================================
 
 " specify directory to save sessions
