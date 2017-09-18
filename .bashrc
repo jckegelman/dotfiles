@@ -10,14 +10,17 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+# save and reload the history after each command finishes
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=100000
+HISTFILESIZE=100000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -114,7 +117,7 @@ if ! shopt -oq posix; then
 fi
 
 # for splitting pdfs
-pdf_split(){
+pdf_split() {
     for file in "$@"; do
         if [ "${file##*.}" != "pdf" ]; then
             echo "Skipping $file because it is not a PDF";
@@ -129,7 +132,7 @@ pdf_split(){
             Outfile[$i]="$filename-$i.pdf";
         done;
     done;
-};
+}
 
 # for starting ssh-agent
 SSH_ENV="$HOME/.ssh/env"
@@ -183,8 +186,8 @@ export PATH=/cygdrive/C/Program\ Files/SumatraPDF:$PATH
 export VIMRUNTIME="/usr/share/vim/vim74"
 export DISPLAY=:0.0
 
-# source bash-preexec
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-
 # load custom dircolors
 [[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
+
+# source bash-preexec
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
