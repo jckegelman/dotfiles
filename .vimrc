@@ -72,6 +72,7 @@ set softtabstop=4              " <TAB> and <BS> for 4 spaces
 set t_Co=256                   " use 256 colors
 set ttimeout                   " timeout on key mappings
 set ttimeoutlen=100            " reduce key timeout to 100ms
+set ttymouse=sgr               " handle SGR-styled mouse reporting
 set visualbell                 " use visual bell instead of beeping
 set wildmenu                   " better command-line completion
 set wildmode=full              " complete the next full match
@@ -240,14 +241,12 @@ let g:easy_align_delimiters['m'] = {
 "============= LaTeX & vimtex ================================================
 
 let g:tex_flavor='latex'            " correct filetype detection
-let g:vimtex_imaps_Leader = ';'     " change insert mode Leader key from '`' to ';'
-let g:vimtex_latexmk_continuous = 0 " disable continuous mode
-let g:vimtex_latexmk_background = 1 " compile in background
+let g:vimtex_imaps_leader = ';'     " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
 let g:vimtex_view_general_viewer  = 'SumatraPDF'
 let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
-let g:vimtex_latexmk_callback = 0
+let g:vimtex_compiler_latexmk = {'callback' : 0}
 
 "============= syntastic =====================================================
 
