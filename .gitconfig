@@ -29,8 +29,20 @@
 	st = status -sb
 	br = branch
 	unstage = reset HEAD --
+	diff = diff --word-diff=color
+	df = diff
 	dc = diff --cached
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
-	p2g = push origin HEAD:refs/for/reviewed/master
+	ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+	lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	lg = log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset" --abbrev-commit --date=relative --all
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	caa = commit --all --amend --no-edit
 	cia = commit --amend --no-edit
-	cf = clang-format --style google
+	cf = clang-format
+	f = "!git ls-files | grep -i"
+	gr = grep -Ii
+	p2r = push origin HEAD:refs/for/reviewed/master
+	branch-name = "!git rev-parse --abbrev-ref HEAD"
+	p2u = "!git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$(git branch-name)"
+	p2un = "!f() { : git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$1; }; f"

@@ -192,5 +192,8 @@ fi
 # load custom dircolors
 [[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
 
+# source git-completion
+[[ -f ~/.git-completion.bash ]] && source ~/.git-completion.bash
+
 # source bash-preexec
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
