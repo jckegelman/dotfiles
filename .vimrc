@@ -240,8 +240,8 @@ let g:easy_align_delimiters['m'] = {
 
 "============= LaTeX & vimtex ================================================
 
-let g:tex_flavor='latex'            " correct filetype detection
-let g:vimtex_imaps_leader = ';'     " change insert mode Leader key from '`' to ';'
+let g:tex_flavor='latex'        " correct filetype detection
+let g:vimtex_imaps_leader = ';' " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
 let g:vimtex_view_general_viewer  = 'SumatraPDF'
@@ -262,6 +262,7 @@ let g:syntastic_tex_chktex_args = "-l /cygdrive/c/Users/kegelman/.chktexrc"
 
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 autocmd FileType matlab setlocal commentstring=%\ %s
 
 "============= vim-fugitive ==================================================
@@ -280,6 +281,19 @@ let g:airline_theme='bubblegum'
 let g:airline_powerline_fonts = 1                " enable powerline symbols
 let g:airline#extensions#tabline#enabled = 1     " show list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " show just the file name
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
 
 "============= matchit.vim ===================================================
 
@@ -291,6 +305,7 @@ runtime macros/matchit.vim
 let g:tmuxline_preset = {
     \'a'    : '#S',
     \'b'    : '#W',
+    \'c'    : '#(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD)',
     \'cwin' : ['#I', '#W'],
     \'win'  : ['#I', '#W'],
     \'x'    : '#{?client_prefix,Prefix,      }',

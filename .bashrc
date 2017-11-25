@@ -10,13 +10,10 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth:erasedups
+HISTCONTROL=ignoredups:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-
-# save and reload the history after each command finishes
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=100000
@@ -188,6 +185,9 @@ export DISPLAY=:0.0
 
 # load custom dircolors
 [[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
+
+# source git-completion
+[[ -f ~/.git-completion.bash ]] && source ~/.git-completion.bash
 
 # source bash-preexec
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
