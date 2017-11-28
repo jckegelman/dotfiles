@@ -20,29 +20,33 @@
 	prompt = false
 	trustexitcode = false
 [alias]
-	last = log -1 --stat
-	cp = cherry-pick
+	bclean = "!f() { git branch --merged ${1-reviewed/master} | grep -v " ${1-reviewed/master}$" | xargs -r git branch -d; }; f"
 	boom = reset --hard HEAD
-	co = checkout
-	cl = clone
-	ci = commit
-	st = status -sb
 	br = branch
-	unstage = reset HEAD --
-	diff = diff --word-diff=color
-	df = diff
+	branch-name = "!git rev-parse --abbrev-ref HEAD"
+	caa = commit --all --amend --no-edit
+	ci = commit
+	cia = commit --amend --no-edit
+	cf = clang-format
+	cl = clone
+	co = checkout
+	cp = cherry-pick
 	dc = diff --cached
+	df = diff
+	dlc = diff --cached HEAD^
+	f = "!git ls-files | grep -i"
+	gr = grep -Ii
+	la = "!git config -l | grep alias | cut -c 7-"
+	lc = log -1 --numstat
 	ld = log --pretty=format:"%C(yellow)%h\\ %cr%Cred%d\\ %Creset%s%Cblue\\ [%an]"
 	lds = log --pretty=format:"%C(yellow)%h\\ %cd%Cred%d\\ %Creset%s%Cblue\\ [%an]" --date=short
 	lg = log --graph --pretty=format:"%C(yellow)%h\\ %Creset-%Cred%d%\\ Creset%s\\ %C(yellow)%cr%Cblue\\ [%an]" --all
 	ll = log --pretty=format:"%C(yellow)%h\\ %cd%Cred%d\\ %Creset%s%Cblue\\ [%an]" --date=short --numstat
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%an]"
-	caa = commit --all --amend --no-edit
-	cia = commit --amend --no-edit
-	cf = clang-format
-	f = "!git ls-files | grep -i"
-	gr = grep -Ii
 	p2r = push origin HEAD:refs/for/reviewed/master
-	branch-name = "!git rev-parse --abbrev-ref HEAD"
 	p2u = "!git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$(git branch-name)"
 	p2un = "!f() { : git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$1; }; f"
+	sl = stash list
+	st = status -sb
+	unstage = reset HEAD --
+	dl = "!git ll -1"
