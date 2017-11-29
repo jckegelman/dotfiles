@@ -10,13 +10,10 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth:erasedups
+HISTCONTROL=ignoredups:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-
-# save and reload the history after each command finishes
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=100000
@@ -178,6 +175,13 @@ fi
 preexec() {
     refresh
 }
+
+# change default editor to vim
+if [ -x "/usr/local/bin/vim" ]; then
+    export EDITOR="/usr/local/bin/vim"
+elif [ -x "/usr/bin/vim" ]; then
+    export EDITOR="/usr/bin/vim"
+fi
 
 # add matlab to PATH (for mlint)
 export PATH="/usr/local/MATLAB/R2017a/bin/glnxa64:$PATH"
