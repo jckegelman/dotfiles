@@ -117,18 +117,18 @@ fi
 pdf_split() {
     for file in "$@"; do
         if [ "${file##*.}" != "pdf" ]; then
-            echo "Skipping $file because it is not a PDF";
+            echo "Skipping $file because it is not a PDF"
             continue
-        fi;
+        fi
         pages=$(pdfinfo "$file" | grep "Pages" | awk '{print $2}')
-        echo "Detected $pages pages in $file";
-        filename="${file%.*}";
-        unset Outfile;
+        echo "Detected $pages pages in $file"
+        filename="${file%.*}"
+        unset Outfile
         for i in $(seq 1 "$pages"); do
-            pdftk "$file" cat "$i" output "$filename-$i.pdf";
-            Outfile[$i]="$filename-$i.pdf";
-        done;
-    done;
+            pdftk "$file" cat "$i" output "$filename-$i.pdf"
+            Outfile[$i]="$filename-$i.pdf"
+        done
+    done
 }
 
 # for starting ssh-agent
@@ -139,7 +139,7 @@ start_agent() {
     echo succeeded
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
+    /usr/bin/ssh-add
 }
 
 # source SSH settings, if applicable
@@ -147,10 +147,10 @@ if [ -f "${SSH_ENV}" ]; then
     . "${SSH_ENV}" > /dev/null
     #ps ${SSH_AGENT_PID} doesn't work under cywgin
     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
+        start_agent
     }
 else
-    start_agent;
+    start_agent
 fi
 
 # helper function to refresh environment if inside tmux
@@ -174,6 +174,17 @@ fi
 # add pre-execution function
 preexec() {
     refresh
+}
+
+# helper function to write quick notes
+note() {
+    echo `date +%Y.%0m.%0d-%0H.%0M.%0S` $@ >> ~/notes_`date +%Y%0m%0d`.txt
+}
+
+# to mount canable devices
+mountcan() {
+    sudo ip link set can${1} type can bitrate 250000 triple-sampling on restart-ms 1000
+    sudo ip link set can${1} up
 }
 
 # add TeX Live to PATH
