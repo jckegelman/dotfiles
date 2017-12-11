@@ -181,6 +181,11 @@ note() {
     echo `date +%Y.%0m.%0d-%0H.%0M.%0S` $@ >> ~/notes_`date +%Y%0m%0d`.txt
 }
 
+# converts realtime timestamp to format usable by sandbox
+e2d() {
+    date -d @`expr $1 / 1000000000` +%Y.%0m.%0d-%0H.%0M.%0S
+}
+
 # to mount canable devices
 mountcan() {
     sudo ip link set can${1} type can bitrate 250000 triple-sampling on restart-ms 1000
