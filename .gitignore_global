@@ -22,3 +22,5 @@ Thumbs.db
 *.asv
 *.un~
 **/__pycache__/
+.bazelrc
+*.pyc

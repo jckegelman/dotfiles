@@ -99,7 +99,7 @@ nnoremap Y y$
 " ';' issues commands in normal mode
 nnoremap ; :
 
-" <C-L> clears the search highlights
+" <Ctrl-L> clears the search highlights
 nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
 
 " Ctrl-BS deletes last word in insert mode
