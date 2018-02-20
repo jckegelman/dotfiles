@@ -46,3 +46,5 @@
 	st = status -sb
 	unstage = reset HEAD --
 	dl = "!git ll -1"
+[fetch]
+	prune = true
