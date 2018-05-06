@@ -1,6 +1,6 @@
 [user]
 	name = John Kegelman
-	email = kegelman@stanford.edu
+	email = jckegelman@gmail.com
 [core]
 	editor = vim
 	trustctime = false
@@ -20,14 +20,32 @@
 	prompt = false
 	trustexitcode = false
 [alias]
-	last = log -1 --stat
-	cp = cherry-pick
+	bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
 	boom = reset --hard HEAD
-	co = checkout
-	cl = clone
-	ci = commit
-	st = status -sb
 	br = branch
-	unstage = reset HEAD --
+	branch-name = "!git rev-parse --abbrev-ref HEAD"
+	caa = commit --all --amend --no-edit
+	ci = commit
+	cia = commit --amend --no-edit
+	cf = clang-format
+	cl = clone
+	co = checkout
+	cp = cherry-pick
 	dc = diff --cached
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+	df = diff
+	dlc = diff --cached HEAD^
+	f = "!git ls-files | grep -i"
+	gr = grep -Ii
+	la = "!git config -l | grep alias | cut -c 7-"
+	lc = log -1 --numstat
+	ld = log --pretty=format:"%C(yellow)%h\\ %cr%Cred%d\\ %Creset%s%Cblue\\ [%an]"
+	lds = log --pretty=format:"%C(yellow)%h\\ %cd%Cred%d\\ %Creset%s%Cblue\\ [%an]" --date=short
+	lg = log --graph --pretty=format:"%C(yellow)%h\\ %Creset-%Cred%d%\\ Creset%s\\ %C(yellow)%cr%Cblue\\ [%an]" --all
+	ll = log --pretty=format:"%C(yellow)%h\\ %cd%Cred%d\\ %Creset%s%Cblue\\ [%an]" --date=short --numstat
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%an]"
+	sl = stash list
+	st = status -sb
+	unstage = reset HEAD --
+	dl = "!git ll -1"
+[fetch]
+	prune = true

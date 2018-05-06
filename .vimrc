@@ -105,7 +105,7 @@ noremap <Leader>p :read !pbpaste<CR>
 " ';' issues commands in normal mode
 nnoremap ; :
 
-" <C-L> clears the search highlights
+" <Ctrl-L> clears the search highlights
 nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
 
 " Ctrl-BS deletes last word in insert mode
@@ -170,6 +170,9 @@ augroup vimrc
     autocmd FileType help nnoremap <silent><buffer> q :q<CR>
     autocmd FocusLost * silent! :wa
 augroup END
+
+" switch between *.h and *.cc files and vice versa
+map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 
 "============= Session Handling ==============================================
 
@@ -284,6 +287,7 @@ let g:syntastic_tex_chktex_args = "-l ~/.chktexrc" " load a chktexrc file with c
 
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 autocmd FileType matlab setlocal commentstring=%\ %s
 
 "============= vim-fugitive ==================================================
@@ -302,6 +306,19 @@ let g:airline_theme='angr'
 let g:airline_powerline_fonts = 1                " enable powerline symbols
 let g:airline#extensions#tabline#enabled = 1     " show list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " show just the file name
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
 
 "============= matchit.vim ===================================================
 
@@ -313,6 +330,7 @@ runtime macros/matchit.vim
 let g:tmuxline_preset = {
     \'a'    : '#S',
     \'b'    : '#W',
+    \'c'    : '#(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD)',
     \'cwin' : ['#I', '#W'],
     \'win'  : ['#I', '#W'],
     \'x'    : '#{?client_prefix,Prefix,      }',
