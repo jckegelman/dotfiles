@@ -60,6 +60,7 @@ set noswapfile                 " suppress creation of swap files
 set nowb                       " suppress creation of ~ files
 set number                     " show line numbers
 set pastetoggle=<F2>           " <F2> toggles paste mode
+set relativenumber             " show relative line numbers
 set scrolloff=3                " 3 row offset when scrolling
 set shiftround                 " round indent to multiple of 'shiftwidth'
 set showcmd                    " show partial command in status line
@@ -99,7 +100,7 @@ nnoremap Y y$
 " ';' issues commands in normal mode
 nnoremap ; :
 
-" <C-L> clears the search highlights
+" <Ctrl-L> clears the search highlights
 nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
 
 " Ctrl-BS deletes last word in insert mode
@@ -164,6 +165,9 @@ augroup vimrc
     autocmd FileType help nnoremap <silent><buffer> q :q<CR>
     autocmd FocusLost * silent! :wa
 augroup END
+
+" switch between *.h and *.cc files and vice versa
+map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 
 "============= Session Handling ==============================================
 
