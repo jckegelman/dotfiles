@@ -29,6 +29,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'zacanger/angr.vim'
 
 call plug#end()
 
@@ -77,6 +78,8 @@ set ttymouse=sgr               " handle SGR-styled mouse reporting
 set visualbell                 " use visual bell instead of beeping
 set wildmenu                   " better command-line completion
 set wildmode=full              " complete the next full match
+
+colorscheme angr
 
 if has('gui_running')
     set lines=35 columns=108   " adjust window size for gui
