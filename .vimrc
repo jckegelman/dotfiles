@@ -263,7 +263,8 @@ let g:syntastic_loc_list_height = 5          " height of location-list
 let g:syntastic_check_on_open = 1            " check when buffer is loaded
 let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
 " load a chktexrc file with chktex
-let g:syntastic_tex_chktex_args = "-l /cygdrive/c/Users/kegelman/.chktexrc"
+let g:syntastic_tex_chktex_args = "-l"
+let g:syntastic_tex_chktex_fname = "/cygdrive/c/Users/kegelman/.chktexrc"
 
 "============= vim-commentary ================================================
 
