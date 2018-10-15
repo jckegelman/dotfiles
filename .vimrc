@@ -285,7 +285,7 @@ let g:surround_indent = 1
 
 "============= vim-airline ===================================================
 
-let g:airline_theme='bubblegum'
+let g:airline_theme='angr'
 let g:airline_powerline_fonts = 1                " enable powerline symbols
 let g:airline#extensions#tabline#enabled = 1     " show list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " show just the file name
