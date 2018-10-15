@@ -24,3 +24,5 @@ Thumbs.db
 **/__pycache__/
 .bazelrc
 *.pyc
+**/.ipynb_checkpoints/
+**/venv

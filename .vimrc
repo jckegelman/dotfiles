@@ -18,6 +18,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'eiginn/netrw'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'lervag/vimtex'
+Plug 'mfukar/robotframework-vim'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
@@ -168,6 +169,9 @@ augroup END
 " switch between *.h and *.cc files and vice versa
 map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 
+" detect bazel filetypes
+autocmd BufRead,BufNewFile *.bzl,BUILD,*.BUILD,BUILD.*,WORKSPACE setfiletype bzl
+
 "============= Session Handling ==============================================
 
 " specify directory to save sessions
@@ -267,6 +271,7 @@ map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 autocmd FileType matlab setlocal commentstring=%\ %s
+autocmd FileType robot setlocal commentstring=#\ %s
 
 "============= vim-fugitive ==================================================
 
