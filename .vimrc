@@ -33,8 +33,6 @@ Plug 'zacanger/angr.vim'
 
 call plug#end()
 
-colorscheme angr
-
 "============= Options ===================================================
 
 set autoindent                 " always indent
@@ -79,6 +77,8 @@ set ttimeoutlen=100            " reduce key timeout to 100ms
 set visualbell                 " use visual bell instead of beeping
 set wildmenu                   " better command-line completion
 set wildmode=full              " complete the next full match
+
+colorscheme angr
 
 if has('gui_running')
     set lines=35 columns=108   " adjust window size for gui
@@ -250,7 +250,7 @@ let g:easy_align_delimiters['m'] = {
 "============= LaTeX & vimtex ================================================
 
 let g:tex_flavor='latex'        " correct filetype detection
-let g:vimtex_imaps_Leader = ';' " change insert mode Leader key from '`' to ';'
+let g:vimtex_imaps_leader = ';' " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
 let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'
@@ -281,7 +281,9 @@ let g:syntastic_auto_loc_list = 2            " do not auto open but auto close l
 let g:syntastic_loc_list_height = 5          " height of location-list
 let g:syntastic_check_on_open = 1            " check when buffer is loaded
 let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
-let g:syntastic_tex_chktex_args = "-l ~/.chktexrc" " load a chktexrc file with chktex
+" load a chktexrc file with chktex
+let g:syntastic_tex_chktex_args = "-l"
+let g:syntastic_tex_chktex_fname = "/Users/jckegelman/.chktexrc"
 
 "============= vim-commentary ================================================
 
