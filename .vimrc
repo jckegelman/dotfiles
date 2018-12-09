@@ -29,6 +29,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'zacanger/angr.vim'
 
 call plug#end()
 
@@ -77,6 +78,8 @@ set visualbell                 " use visual bell instead of beeping
 set wildmenu                   " better command-line completion
 set wildmode=full              " complete the next full match
 
+colorscheme angr
+
 if has('gui_running')
     set lines=35 columns=108   " adjust window size for gui
     set guifont=Meslo\ LG\ M\ Regular
@@ -99,7 +102,7 @@ nnoremap Y y$
 " ';' issues commands in normal mode
 nnoremap ; :
 
-" <C-L> clears the search highlights
+" <Ctrl-L> clears the search highlights
 nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
 
 " Ctrl-BS deletes last word in insert mode
@@ -164,6 +167,9 @@ augroup vimrc
     autocmd FileType help nnoremap <silent><buffer> q :q<CR>
     autocmd FocusLost * silent! :wa
 augroup END
+
+" switch between *.h and *.cc files and vice versa
+map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
 
 "============= Session Handling ==============================================
 
@@ -241,7 +247,7 @@ let g:easy_align_delimiters['m'] = {
 "============= LaTeX & vimtex ================================================
 
 let g:tex_flavor='latex'        " correct filetype detection
-let g:vimtex_imaps_Leader = ';' " change insert mode Leader key from '`' to ';'
+let g:vimtex_imaps_leader = ';' " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
 let g:vimtex_view_general_viewer = 'qpdfview'
@@ -256,7 +262,9 @@ let g:syntastic_auto_loc_list = 2            " do not auto open but auto close l
 let g:syntastic_loc_list_height = 5          " height of location-list
 let g:syntastic_check_on_open = 1            " check when buffer is loaded
 let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
-let g:syntastic_tex_chktex_args = "-l ~/chktexrc" " load a chktexrc file with chktex
+" load a chktexrc file with chktex
+let g:syntastic_tex_chktex_args = "-l"
+let g:syntastic_tex_chktex_fname = "~/.chktexrc"
 
 "============= vim-commentary ================================================
 
@@ -277,7 +285,7 @@ let g:surround_indent = 1
 
 "============= vim-airline ===================================================
 
-let g:airline_theme='bubblegum'
+let g:airline_theme='angr'
 let g:airline_powerline_fonts = 1                " enable powerline symbols
 let g:airline#extensions#tabline#enabled = 1     " show list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " show just the file name
