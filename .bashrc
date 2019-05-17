@@ -15,6 +15,8 @@ HISTCONTROL=ignoredups:erasedups
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=100000
 HISTFILESIZE=100000
