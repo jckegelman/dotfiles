@@ -19,7 +19,6 @@ Plug 'eiginn/netrw'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'lervag/vimtex'
 Plug 'mfukar/robotframework-vim'
-Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
@@ -27,9 +26,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'uarun/vim-protobuf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'w0rp/ale'
 Plug 'zacanger/angr.vim'
 
 call plug#end()
@@ -259,22 +260,11 @@ let g:vimtex_view_general_options
   \ = '--unique @pdf\#src:@tex:@line:@col'
 let g:vimtex_view_general_options_latexmk = '--unique'
 
-"============= syntastic =====================================================
-
-let g:syntastic_always_populate_loc_list = 1 " fill location-list with errors
-let g:syntastic_auto_loc_list = 2            " do not auto open but auto close location-list
-let g:syntastic_loc_list_height = 5          " height of location-list
-let g:syntastic_check_on_open = 1            " check when buffer is loaded
-let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
-" load a chktexrc file with chktex
-let g:syntastic_tex_chktex_args = "-l"
-let g:syntastic_tex_chktex_fname = "/home/johnk/.chktexrc"
-
 "============= vim-commentary ================================================
 
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
-autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+autocmd FileType c,cpp,cs,java,proto setlocal commentstring=//\ %s
 autocmd FileType matlab setlocal commentstring=%\ %s
 autocmd FileType robot setlocal commentstring=#\ %s
 
