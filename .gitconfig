@@ -43,8 +43,11 @@
 	lg = log --graph --pretty=format:"%C(yellow)%h\\ %Creset-%Cred%d%\\ Creset%s\\ %C(yellow)%cr%Cblue\\ [%an]" --all
 	ll = log --pretty=format:"%C(yellow)%h\\ %cd%Cred%d\\ %Creset%s%Cblue\\ [%an]" --date=short --numstat
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%an]"
-	p2r = push origin HEAD:refs/for/reviewed/master
+	p2m = push origin HEAD:refs/for/reviewed/master
 	p2o = push origin HEAD:refs/for/reviewed/release/stable-35-olympic
+	p2a = push origin HEAD:refs/for/reviewed/release/stable-36-arches
+	p2e = push origin HEAD:refs/for/reviewed/release/stable-37-everglades
+	p2r = push origin HEAD:refs/for/reviewed/release/stable-38-redwood
 	p2u = "!git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$(git branch-name)"
 	p2un = "!f() { : git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$1; }; f"
 	sl = stash list
