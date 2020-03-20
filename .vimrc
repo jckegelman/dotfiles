@@ -58,6 +58,7 @@ set list                       " show following whitespace characters
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set mouse=a                    " enable mouse for all modes
 set nobackup                   " suppress creation of backup files
+set nojoinspaces               " insert one space after '.'
 set nostartofline              " keep cursor on same column
 set noswapfile                 " suppress creation of swap files
 set nowb                       " suppress creation of ~ files
