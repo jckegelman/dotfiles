@@ -48,6 +48,7 @@
 	p2a = push origin HEAD:refs/for/reviewed/release/stable-36-arches
 	p2e = push origin HEAD:refs/for/reviewed/release/stable-37-everglades
 	p2r = push origin HEAD:refs/for/reviewed/release/stable-38-redwood
+	p2rm = push origin HEAD:refs/for/reviewed/release/stable-39-rocky-mtn
 	p2u = "!git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$(git branch-name)"
 	p2un = "!f() { : git push -u origin HEAD:refs/heads/unreviewed/$(whoami)/$1; }; f"
 	sl = stash list
