@@ -18,7 +18,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'eiginn/netrw'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'lervag/vimtex'
-Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
@@ -29,6 +28,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'w0rp/ale'
 Plug 'zacanger/angr.vim'
 
 call plug#end()
@@ -56,6 +56,7 @@ set list                       " show following whitespace characters
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set mouse=a                    " enable mouse for all modes
 set nobackup                   " suppress creation of backup files
+set nojoinspaces               " insert one space after '.'
 set nostartofline              " keep cursor on same column
 set noswapfile                 " suppress creation of swap files
 set nowb                       " suppress creation of ~ files
@@ -98,9 +99,6 @@ let mapleader = "\<Space>"
 
 " Y yanks until EOL
 nnoremap Y y$
-
-" paste from system clipboard (iTerm2)
-noremap <Leader>p :read !pbpaste<CR>
 
 " ';' issues commands in normal mode
 nnoremap ; :
@@ -173,6 +171,9 @@ augroup END
 
 " switch between *.h and *.cc files and vice versa
 map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
+
+" detect bazel filetypes
+autocmd BufRead,BufNewFile *.bzl,BUILD,*.BUILD,BUILD.*,WORKSPACE setfiletype bzl
 
 "============= Session Handling ==============================================
 
@@ -253,37 +254,10 @@ let g:tex_flavor='latex'        " correct filetype detection
 let g:vimtex_imaps_leader = ';' " change insert mode Leader key from '`' to ';'
 
 " configure PDF viewer
-let g:vimtex_view_general_viewer  = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-let g:vimtex_view_general_options = '-r @line @pdf @tex'
-let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
-function! UpdateSkim(status)
-    if !a:status | return | endif
-
-    let l:out = b:vimtex.out()
-    let l:tex = expand('%:p')
-    let l:cmd = [g:vimtex_view_general_viewer, '-r']
-    if !empty(system('pgrep Skim'))
-        call extend(l:cmd, ['-g'])
-    endif
-    if has('nvim')
-        call jobstart(l:cmd + [line('.'), l:out, l:tex])
-    elseif has('job')
-        call job_start(l:cmd + [line('.'), l:out, l:tex])
-    else
-        call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
-    endif
-endfunction
-
-"============= syntastic =====================================================
-
-let g:syntastic_always_populate_loc_list = 1 " fill location-list with errors
-let g:syntastic_auto_loc_list = 2            " do not auto open but auto close location-list
-let g:syntastic_loc_list_height = 5          " height of location-list
-let g:syntastic_check_on_open = 1            " check when buffer is loaded
-let g:syntastic_check_on_wq = 0              " do not check when file is saved just before quit
-" load a chktexrc file with chktex
-let g:syntastic_tex_chktex_args = "-l"
-let g:syntastic_tex_chktex_fname = "/Users/jckegelman/.chktexrc"
+let g:vimtex_view_general_viewer = 'qpdfview'
+let g:vimtex_view_general_options
+  \ = '--unique @pdf\#src:@tex:@line:@col'
+let g:vimtex_view_general_options_latexmk = '--unique'
 
 "============= vim-commentary ================================================
 
