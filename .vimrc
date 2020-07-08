@@ -14,6 +14,7 @@ call plug#begin('~/.vim/plugged')
 
 " vim plugins
 Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'eiginn/netrw'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -312,3 +313,8 @@ let g:tmuxline_preset = {
     \'x'    : '#{?client_prefix,Prefix,      }',
     \'y'    : ['%a', '%e-%b-%Y', '%l:%M%p'],
     \'z'    : '#h'}
+
+"============= editorconfig-vim ==============================================
+
+" make sure editorconfig works well with vim-fugitive
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
