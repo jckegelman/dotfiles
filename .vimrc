@@ -28,6 +28,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
+Plug 'uarun/vim-protobuf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
@@ -267,7 +268,7 @@ let g:vimtex_view_general_options_latexmk = '--unique'
 
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
-autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+autocmd FileType c,cpp,cs,java,proto setlocal commentstring=//\ %s
 autocmd FileType matlab setlocal commentstring=%\ %s
 
 "============= vim-fugitive ==================================================
