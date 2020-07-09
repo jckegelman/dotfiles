@@ -30,6 +30,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'w0rp/ale'
+Plug 'ycm-core/YouCompleteMe', { 'commit': '299f8e48e7d3', 'do': './install.py' }
 Plug 'zacanger/angr.vim'
 
 call plug#end()
@@ -318,3 +319,7 @@ let g:tmuxline_preset = {
 
 " make sure editorconfig works well with vim-fugitive
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+"============= YouCompleteMe =================================================
+let g:ycm_global_ycm_extra_conf='~/.ycn_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files=1
