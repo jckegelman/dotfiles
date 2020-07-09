@@ -20,7 +20,6 @@ Plug 'eiginn/netrw'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-Plug 'lervag/vimtex'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sleuth'
@@ -252,17 +251,6 @@ let g:easy_align_delimiters['m'] = {
 \ 'left_margin': 0,
 \ 'stick_to_left': 0
 \ }
-
-"============= LaTeX & vimtex ================================================
-
-let g:tex_flavor='latex'        " correct filetype detection
-let g:vimtex_imaps_leader = ';' " change insert mode Leader key from '`' to ';'
-
-" configure PDF viewer
-let g:vimtex_view_general_viewer = 'qpdfview'
-let g:vimtex_view_general_options
-  \ = '--unique @pdf\#src:@tex:@line:@col'
-let g:vimtex_view_general_options_latexmk = '--unique'
 
 "============= vim-commentary ================================================
 
