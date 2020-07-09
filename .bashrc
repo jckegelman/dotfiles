@@ -188,3 +188,5 @@ fi
 
 # source bash-preexec
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
