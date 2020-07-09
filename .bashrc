@@ -153,29 +153,6 @@ else
     start_agent
 fi
 
-# helper function to refresh environment if inside tmux
-if [ -n "$TMUX" ]; then
-    refresh() {
-        sshauth=$(tmux show-environment | grep "^SSH_AUTH_SOCK")
-        if [ $sshauth ]; then
-            export $sshauth
-        fi
-        display=$(tmux show-environment | grep "^DISPLAY")
-        if [ $display ]; then
-            export $display
-        fi
-    }
-else
-    refresh() {
-        true
-    }
-fi
-
-# add pre-execution function
-preexec() {
-    refresh
-}
-
 # change default editor to vim
 if [ -x "/usr/local/bin/vim" ]; then
     export EDITOR="/usr/local/bin/vim"
@@ -185,8 +162,5 @@ fi
 
 # load custom dircolors
 [[ -f ~/.dircolors ]] && eval "$(dircolors ~/.dircolors)"
-
-# source bash-preexec
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
