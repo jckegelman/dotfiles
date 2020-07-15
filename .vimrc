@@ -173,8 +173,8 @@ augroup vimrc
     autocmd FocusLost * silent! :wa
 augroup END
 
-" switch between *.h and *.cc files and vice versa
-map <F4> :e %:p:s,.h$,.X123X,:s,.cc$,.h,:s,.X123X$,.cc,<CR>
+" switch between *.h and *.cpp files and vice versa
+map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
 " detect bazel filetypes
 autocmd BufRead,BufNewFile *.bzl,BUILD,*.BUILD,BUILD.*,WORKSPACE setfiletype bzl
