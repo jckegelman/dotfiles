@@ -14,14 +14,19 @@ call plug#begin('~/.vim/plugged')
 
 " vim plugins
 Plug 'airblade/vim-gitgutter'
+Plug 'dense-analysis/ale'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'eiginn/netrw'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'qpkorr/vim-bufkill'
+Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-tbone'
@@ -31,246 +36,54 @@ Plug 'uarun/vim-protobuf'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/ReplaceWithRegister'
-Plug 'w0rp/ale'
-Plug 'ycm-core/YouCompleteMe', { 'commit': '299f8e48e7d3', 'do': './install.py' }
+Plug 'vim-utils/vim-all'
+Plug 'vim-utils/vim-man'
+Plug 'vim-utils/vim-troll-stopper'
+Plug 'ycm-core/YouCompleteMe', { 'commit': '299f8e48e7d3', 'do': './install.py --clang-completer' }
 Plug 'zacanger/angr.vim'
 
 call plug#end()
 
-"============= Options ===================================================
+"============= editorconfig-vim ================================================
+" make sure editorconfig works well with vim-fugitive
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-set autoindent                 " always indent
-set autoread                   " automatically read changed files
-set autowrite                  " automatically save before commands
-set backspace=indent,eol,start " backspace over everything in insert mode
-set clipboard=unnamed          " copy/paste to system clipboard
-set cmdheight=2                " use 2 lines for command line
-set complete-=i                " do not search includes for completions
-set cursorline                 " highlight line with cursor
-set expandtab                  " use spaces instead of <TAB>
-set guicursor=a:blinkon0       " turn off cursor blink
-set hidden                     " buffers can exist in background
-set history=200                " remember 200 previous commands
-set hlsearch                   " highlight search
-set ignorecase                 " case-insensitive search
-set incsearch                  " incremental search
-set laststatus=2               " always show status line
-set lazyredraw                 " only redraw screen when needed
-set list                       " show following whitespace characters
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-set mouse=a                    " enable mouse for all modes
-set nobackup                   " suppress creation of backup files
-set nojoinspaces               " insert one space after '.'
-set nostartofline              " keep cursor on same column
-set noswapfile                 " suppress creation of swap files
-set nowb                       " suppress creation of ~ files
-set number                     " show line numbers
-set pastetoggle=<F2>           " <F2> toggles paste mode
-set relativenumber             " show relative line numbers
-set scrolloff=3                " 3 row offset when scrolling
-set shiftround                 " round indent to multiple of 'shiftwidth'
-set showcmd                    " show partial command in status line
-set showmatch                  " show matching brackets
-set sidescrolloff=5            " 5 column offset when scrolling
-set smartcase                  " case-sensitive for searches with uppercase
-set smarttab                   " <TAB> at start of line, spaces elsewhere
-set spelllang=en_us            " check spelling with American English
-set softtabstop=4              " <TAB> and <BS> for 4 spaces
-set t_Co=256                   " use 256 colors
-set ttimeout                   " timeout on key mappings
-set ttimeoutlen=100            " reduce key timeout to 100ms
-set visualbell                 " use visual bell instead of beeping
-set wildmenu                   " better command-line completion
-set wildmode=full              " complete the next full match
+"============= tmuxline.vim ====================================================
+let g:tmuxline_preset = {
+    \'a'    : '#S',
+    \'b'    : '#W',
+    \'c'    : '#(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD)',
+    \'cwin' : ['#I', '#W'],
+    \'win'  : ['#I', '#W'],
+    \'x'    : '#{?client_prefix,Prefix,      }',
+    \'y'    : ['%a', '%e-%b-%Y', '%l:%M%p'],
+    \'z'    : '#h'}
 
-colorscheme angr
+"============= vim-cpp-enhanced-highlight ======================================
+let g:cpp_class_scope_highlight=1
+let g:cpp_experimental_simple_template_highlight=1
+let g:cpp_concepts_highlight=1
 
-if has('gui_running')
-    set lines=35 columns=108   " adjust window size for gui
-    set guifont=Meslo\ LG\ M\ Regular
-endif
+"============= vim-clang-format ================================================
+let g:clang_format#command='clang-format-3.6'
+let g:clang_format#detect_style_file=1
+autocmd FileType c,cpp,objc let g:clang_format#auto_format=0
 
-" join commented lines intelligently
-if has('patch-7.3.541')
-    set formatoptions+=j
-endif
-
-"============= Key Mappings ==================================================
-
-" map Leader key to <Space>
-nnoremap <Space> <nop>
-let mapleader = "\<Space>"
-
-" Y yanks until EOL
-nnoremap Y y$
-
-" ';' issues commands in normal mode
-nnoremap ; :
-
-" <Ctrl-L> clears the search highlights
-nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
-
-" Ctrl-BS deletes last word in insert mode
-inoremap <C-BS> <ESC>bcw
-
-" Ctrl-Del deletes next word in insert mode
-inoremap <C-Del> <ESC>wcw
-
-" reselect visual block after indent/outdent
-xnoremap < <gv
-xnoremap > >gv
-
-" <Leader>T opens a new empty buffer
-nnoremap <Leader>T :enew<CR>
-
-" <Leader>bq closes the current buffer and moves to the previous one
-nnoremap <Leader>bq :bp <bar> bd #<CR>
-
-" modify undo behavior in insert mode
-inoremap <C-U> <C-G>u<C-U>
-inoremap <C-W> <C-G>u<C-W>
-
-" save with <Leader>
-nnoremap <Leader>s :update<CR>
-nnoremap <Leader>w :update<CR>
-
-" quit with <Leader>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>Q :qa!<CR>
-
-" escape insert mode with "jj"
-inoremap jj <ESC>
-
-" movement in insert mode
-inoremap <C-H> <C-O>h
-inoremap <C-L> <C-O>l
-inoremap <C-J> <C-O>j
-inoremap <C-K> <C-O>k
-inoremap <C-^> <C-O><C-^>
-
-" circular windows navigation
-nnoremap <TAB>   <C-W>w
-nnoremap <S-TAB> <C-W>W
-
-" navigate windows with Ctrl-h/j/k/l
-nnoremap <C-h> <C-W>h
-nnoremap <C-j> <C-W>j
-nnoremap <C-k> <C-W>k
-nnoremap <C-l> <C-W>l
-
-"============= handy commands  ===============================================
-
-" from tpope on github
-" increase/decrease gui font size with ":Bigger" / ":Smaller"
-command! -bar -nargs=0 Bigger  :let &guifont = substitute(&guifont,'\d\+$','\=submatch(0)+1','')
-command! -bar -nargs=0 Smaller :let &guifont = substitute(&guifont,'\d\+$','\=submatch(0)-1','')
-
-augroup vimrc
-    autocmd!
-    autocmd FocusGained * if !has('win32') | silent! call fugitive#reload_status*() | endif
-    autocmd FileType gitcommit setlocal spell
-    autocmd FileType help nnoremap <silent><buffer> q :q<CR>
-    autocmd FocusLost * silent! :wa
-augroup END
-
-" switch between *.h and *.cpp files and vice versa
-map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
-
-" detect bazel filetypes
-autocmd BufRead,BufNewFile *.bzl,BUILD,*.BUILD,BUILD.*,WORKSPACE setfiletype bzl
-
-"============= Session Handling ==============================================
-
-" specify directory to save sessions
-let g:session_dir = $HOME."/.vim/session"
-
-" set session name using Ses command
-command! -nargs=1 SessionName let g:sessionname=<f-args>
-command! SessionCleanSave :set sessionoptions=blank,buffers,curdir,tabpages
-
-" Save sessions whenever vim closes
-autocmd VimLeave * call SaveSession()
-
-" Load session when vim is opened
-autocmd VimEnter * nested call OpenSession()
-
-" Saves the session to session dir. Creates session dir if it doesn't
-" yet exist. Sessions are named after servername parameter or g:sessionname
-function! SaveSession()
-
-    " get the server (session) name
-    if exists("g:sessionname")
-        let s = g:sessionname
-    else
-        let s = v:servername
-    endif
-
-    " create session dir if needed
-    if !isdirectory(g:session_dir)
-        call mkdir(g:session_dir, "p")
-    endif
-
-    " save session using the server name
-    execute "mksession! ".g:session_dir."/".s.".session.vim"
-endfunc
-
-" Open a saved session if there were no file-names passed as arguments
-" The session opened is based on servername (session name). If there
-" is no session for this server, none will be opened
-function! OpenSession()
-
-    " check if file names were passed as arguments
-    if argc() == 0
-
-        let sn = v:servername
-        let file = g:session_dir."/".sn.".session.vim"
-
-        " if session file exists, ask user if he wants to load it
-        if filereadable(file)
-            if(confirm("Load last session?\n\n".file, "&Yes\n&No", 1)==1)
-                execute "source ".file
-            endif
-        endif
-
-    endif
-endfunc
-
-"============= vim-easy-align ================================================
-
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-if !exists('g:easy_align_delimiters')
-    let g:easy_align_delimiters = {}
-endif
-let g:easy_align_delimiters['m'] = {
-\ 'pattern': ',\|\([)\]}];\)',
-\ 'left_margin': 0,
-\ 'stick_to_left': 0
-\ }
-
-"============= vim-commentary ================================================
-
+"============= vim-commentary ==================================================
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 autocmd FileType c,cpp,cs,java,proto setlocal commentstring=//\ %s
 autocmd FileType matlab setlocal commentstring=%\ %s
 
-"============= vim-fugitive ==================================================
-
+"============= vim-fugitive ====================================================
 nmap     <Leader>g :Gstatus<CR>gg<C-n>
 nnoremap <Leader>d :Gdiff<CR>
 
-"============= vim-surround ==================================================
-
+"============= vim-surround ====================================================
 " enable automatic re-indenting
 let g:surround_indent = 1
 
-"============= vim-airline ===================================================
-
+"============= vim-airline =====================================================
 let g:airline_theme='angr'
 let g:airline_powerline_fonts = 1                " enable powerline symbols
 let g:airline#extensions#tabline#enabled = 1     " show list of buffers
@@ -289,28 +102,217 @@ let g:airline_mode_map = {
     \ '' : 'S',
     \ }
 
-"============= matchit.vim ===================================================
+"============= YouCompleteMe ===================================================
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files=1
 
+"============= matchit.vim =====================================================
 " extend "%" matching
 runtime macros/matchit.vim
 
-"============= tmuxline.vim ==================================================
+"============= Autocommands ====================================================
 
-let g:tmuxline_preset = {
-    \'a'    : '#S',
-    \'b'    : '#W',
-    \'c'    : '#(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD)',
-    \'cwin' : ['#I', '#W'],
-    \'win'  : ['#I', '#W'],
-    \'x'    : '#{?client_prefix,Prefix,      }',
-    \'y'    : ['%a', '%e-%b-%Y', '%l:%M%p'],
-    \'z'    : '#h'}
+augroup vimrc
+    autocmd!
+    autocmd FocusGained * silent! call fugitive#reload_status*()
+    autocmd FileType help nnoremap <silent><buffer> q :q<CR>
+    autocmd FocusLost * silent! :wa
+augroup END
 
-"============= editorconfig-vim ==============================================
+" additional filetypes
+augroup FileTypeAssociation
+   autocmd!
+   autocmd BufNewFile,BufRead *.impl,*.inl set filetype=cpp
+   autocmd BufNewFile,BufRead *.launch set filetype=xml
+   autocmd BufNewFile,BufRead *.make set filetype=make
+augroup END
 
-" make sure editorconfig works well with vim-fugitive
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+" Resize splits on window resize.
+augroup AutoResizeSplits
+   autocmd!
+   autocmd VimResized * exe "normal! \<c-w>="
+augroup END
 
-"============= YouCompleteMe =================================================
-let g:ycm_global_ycm_extra_conf='~/.ycn_extra_conf.py'
-let g:ycm_collect_identifiers_from_tags_files=1
+"============= Settings ========================================================
+set autoindent                 " always indent
+set autoread                   " automatically read changed files
+set autowrite                  " automatically save before commands
+set backspace=indent,eol,start " backspace over everything in insert mode
+set clipboard=unnamed          " copy/paste to system clipboard
+set cmdheight=2                " use N lines for command line
+set cursorline                 " highlight line with cursor
+set expandtab                  " use spaces instead of <TAB>
+set guicursor=a:blinkon0       " turn off cursor blink
+set hidden                     " buffers can exist in background
+set history=500                " remember N previous commands
+set hlsearch                   " highlight search
+set ignorecase                 " case-insensitive search
+set incsearch                  " incremental search
+set laststatus=2               " always show status line
+set lazyredraw                 " only redraw screen when needed
+set list                       " show following whitespace characters
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set nobackup                   " suppress creation of backup files
+set noerrorbells               " no beeps on errors
+set nojoinspaces               " insert one space after '.'
+set nostartofline              " keep cursor on same column
+set noswapfile                 " suppress creation of swap files
+set nowb                       " suppress creation of ~ files
+set number                     " show line numbers
+set pastetoggle=<F2>           " <F2> toggles paste mode
+set relativenumber             " show relative line numbers
+set scrolloff=5                " N row offset when scrolling
+set shiftround                 " round indent to multiple of 'shiftwidth'
+set showcmd                    " show partial command in status line
+set showmatch                  " show matching brackets
+set sidescrolloff=10           " N column offset when scrolling
+set smartcase                  " case-sensitive for searches with uppercase
+set smarttab                   " <TAB> at start of line, spaces elsewhere
+set spelllang=en_us            " check spelling with American English
+set softtabstop=4              " <TAB> and <BS> for 4 spaces
+set textwidth=80               " hard wrap at N characters.
+set ttimeout                   " timeout on key mappings
+set ttimeoutlen=100            " reduce key timeout to 100ms
+set ttyfast                    " smoother redrawing.
+set wildmenu                   " better command-line completion
+set wildmode=list:longest,full " tab completion lists matches, then opens wildmenu on next <Tab>
+set wrap                       " soft wrap lines.
+set wrapscan                   " searching wraps to start of file when end is reached.
+
+" Completion settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Options:
+"     .        scan the current buffer ('wrapscan' is ignored)
+"     w        scan buffers from other windows
+"     b        scan other loaded buffers that are in the buffer list
+"     u        scan the unloaded buffers that are in the buffer list
+"     U        scan the buffers that are not in the buffer list
+"     k        scan the files given with the 'dictionary' option
+"     kspell   use the currently active spell checking |spell|
+"     k{dict}  scan the file {dict}
+"     s        scan the files given with the 'thesaurus' option
+"     s{tsr}   scan the file {tsr}
+"     i        scan current and included files
+"     d        scan current and included files for defined name or macro |i_CTRL-X_CTRL-D|
+"     t        tag completion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set complete=.,w,b,u,t,i
+autocmd FileType markdown,gitcommit,text setlocal complete+=k spell
+
+" Text formatting settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Options:
+"     t  Auto-wrap text using textwidth. (default)
+"     c  Auto-wrap comments; insert comment leader. (default)
+"     q  Allow formatting of comments with "gq". (default)
+"     r  Insert comment leader after hitting <Enter>.
+"     o  Insert comment leader after hitting 'o' or 'O' in command mode.
+"     n  Auto-format lists, wrapping to text after the list bullet char.
+"     l  Don't auto-wrap if a line is already longer than textwidth.
+"     j  Join commented lines intelligently
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set formatoptions=tcqronlj
+
+" Enable mouse scrolling in selected modes
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Options:
+"     a  All
+"     c  Command
+"     i  Insert
+"     n  Normal
+"     v  Visual
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set mouse=
+
+" Color theme
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256                  " Use as many colors as your terminal supports.
+silent! colorscheme angr      " Must be silent so vim-plug does not fail when installing for the first time.
+
+if has('gui_running')
+    set lines=35 columns=108   " adjust window size for gui
+    set guifont=Meslo\ LG\ M\ Regular
+endif
+
+"============= Key Mappings ====================================================
+
+" switch between *.h and *.cpp files and vice versa
+map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+
+"============= Normal mode =====================================================
+
+" map Leader key to <Space>
+nnoremap <Space> <nop>
+let mapleader = "\<Space>"
+
+" Y yanks until EOL
+nnoremap Y y$
+
+" No one ever intends to enter ex-mode. Make it harder by rebinding to QQ.
+nnoremap Q <nop>
+nnoremap QQ Q
+
+" ';' issues commands in normal mode
+nnoremap ; :
+
+" <Ctrl-L> clears the search highlights
+nnoremap <silent> <C-n> :nohlsearch<CR>:redraw!<CR>
+
+" <Leader>T opens a new empty buffer
+nnoremap <Leader>T :enew<CR>
+
+" <Leader>bq closes the current buffer and moves to the previous one
+nnoremap <Leader>bq :bp <bar> bd #<CR>
+
+" save with <Leader>
+nnoremap <Leader>s :update<CR>
+nnoremap <Leader>w :update<CR>
+
+" quit with <Leader>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>Q :qa!<CR>
+
+" circular windows navigation
+nnoremap <TAB>   <C-W>w
+nnoremap <S-TAB> <C-W>W
+
+" navigate windows with Ctrl-h/j/k/l
+nnoremap <C-h> <C-W>h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> <C-W>l
+
+" Run clang-format on open file.
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>f :ClangFormat<CR>
+nmap <Leader>F :ClangFormatAutoToggle<CR>
+
+"============= Visual mode =====================================================
+
+" reselect visual block after indent/outdent
+xnoremap < <gv
+xnoremap > >gv
+
+" Run clang-format on visual selection.
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>f :ClangFormat<CR>
+
+"============= Insert mode ===================================================
+
+" Ctrl-BS deletes last word in insert mode
+inoremap <C-BS> <ESC>bcw
+
+" Ctrl-Del deletes next word in insert mode
+inoremap <C-Del> <ESC>wcw
+
+" modify undo behavior in insert mode
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
+
+" escape insert mode with "jj"
+inoremap jj <ESC>
+
+" movement in insert mode
+inoremap <C-H> <C-O>h
+inoremap <C-L> <C-O>l
+inoremap <C-J> <C-O>j
+inoremap <C-K> <C-O>k
+inoremap <C-^> <C-O><C-^>
