@@ -21,3 +21,4 @@ Thumbs.db
 *.sbr
 *.asv
 *.un~
+.python-version
