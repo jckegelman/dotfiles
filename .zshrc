@@ -10,3 +10,5 @@ fi
 if command -v pyenv-virtualenv &>/dev/null; then
   eval "$(pyenv virtualenv-init -)"
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
