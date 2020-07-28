@@ -39,7 +39,6 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'vim-utils/vim-all'
 Plug 'vim-utils/vim-man'
 Plug 'vim-utils/vim-troll-stopper'
-Plug 'ycm-core/YouCompleteMe', { 'commit': '299f8e48e7d3', 'do': './install.py --clang-completer' }
 Plug 'zacanger/angr.vim'
 
 call plug#end()
@@ -101,10 +100,6 @@ let g:airline_mode_map = {
     \ 'S'  : 'S',
     \ '' : 'S',
     \ }
-
-"============= YouCompleteMe ===================================================
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_tags_files=1
 
 "============= matchit.vim =====================================================
 " extend "%" matching
