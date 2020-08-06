@@ -21,6 +21,7 @@ Plug 'eiginn/netrw'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'psf/black'
 Plug 'qpkorr/vim-bufkill'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-commentary',    { 'on': '<Plug>Commentary' }
