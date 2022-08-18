@@ -2,3 +2,4 @@ vim/.vim/plugged/
 vim/.vim/session/
 vim/.vim/.netrwhist
 .cfg
+__pycache__

@@ -208,6 +208,7 @@ autocmd FileType markdown,gitcommit,text setlocal complete+=k spell
 "     j  Join commented lines intelligently
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set formatoptions=tcqronlj
+autocmd FileType scala setlocal textwidth=100
 
 " Enable mouse scrolling in selected modes
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

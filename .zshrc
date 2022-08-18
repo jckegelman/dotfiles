@@ -19,3 +19,17 @@ if type brew &>/dev/null; then
   autoload -Uz compinit
   compinit
 fi
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+if command -v jenv &>/dev/null; then
+  eval "$(jenv init -)"
+fi
+
+bindkey "[D" backward-word
+bindkey "[C" forward-word
+
+export PATH="/usr/local/opt/scala@2.12/bin:$PATH"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
